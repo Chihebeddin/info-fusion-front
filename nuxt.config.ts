@@ -4,25 +4,32 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false
+    }
+  ],
+
   postcss: {
     plugins: {
       tailwindcss: {},
-      autoprefixer: {},
-    },
+      autoprefixer: {}
+    }
   },
 
-  modules : [
-    '@vee-validate/nuxt',
+  modules: [
+    '@vee-validate/nuxt'
 
   ],
-  veeValidate : {
+  veeValidate: {
     autoImports: true,
     componentNames: {
       Form: 'VeeForm',
       Field: 'VeeField',
-      FieldArray: 'VeeFieldArray', 
-      ErrorMessage: 'VeeErrorMessage',
-    },
+      FieldArray: 'VeeFieldArray',
+      ErrorMessage: 'VeeErrorMessage'
+    }
   }
 
 })

@@ -7,22 +7,23 @@ export default defineNuxtConfig({
   postcss: {
     plugins: {
       tailwindcss: {},
-      autoprefixer: {},
-    },
+      autoprefixer: {}
+    }
   },
 
-  modules : [
+  modules: [
     '@vee-validate/nuxt',
+    '@pinia/nuxt'
 
   ],
-  veeValidate : {
+  veeValidate: {
     autoImports: true,
     componentNames: {
       Form: 'VeeForm',
       Field: 'VeeField',
-      FieldArray: 'VeeFieldArray', 
-      ErrorMessage: 'VeeErrorMessage',
-    },
+      FieldArray: 'VeeFieldArray',
+      ErrorMessage: 'VeeErrorMessage'
+    }
   }
 
 })

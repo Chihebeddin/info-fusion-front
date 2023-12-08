@@ -4,6 +4,13 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false
+    }
+  ],
+
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -14,7 +21,7 @@ export default defineNuxtConfig({
   modules: [
     '@vee-validate/nuxt',
     '@pinia/nuxt'
-
+    '@vee-validate/nuxt'
   ],
   veeValidate: {
     autoImports: true,

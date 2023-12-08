@@ -20,7 +20,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@vee-validate/nuxt',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
     '@vee-validate/nuxt'
   ],
   veeValidate: {

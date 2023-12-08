@@ -69,7 +69,6 @@ export default {
               Créez un compte
             </h1>
             <form class="space-y-4 md:space-y-6" action="#" @submit.prevent="onSubmit">
-
               <div class="flex">
                 <div class="flex items-center mr-4">
                   <input
@@ -172,7 +171,6 @@ export default {
                 type="submit"
                 class="w-full text-gray-900 bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
               >
-
                 Créer un compte
               </button>
               <p class="text-sm font-light text-gray-500 dark:text-gray-400">

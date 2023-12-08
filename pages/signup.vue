@@ -1,30 +1,75 @@
 <script>
+import { addClient, addShop } from '../services/userService'
+
 import ClientForm from '~/components/signup/ClientForm.vue'
 import ShopForm from '~/components/signup/ShopForm.vue'
 export default {
   components: { ClientForm, ShopForm },
   data () {
     return {
-      picked: 'Client'
+      picked: 'Client',
+      formData: {
+        email: '',
+        password: '',
+        confirmpassword: ''
+      }
+    }
+  },
+
+  methods: {
+    onSubmit () {
+      if (this.picked === 'Client') {
+        const firstnameValue = this.$refs.clientFormRef.$refs.firstnameInput.value
+        const lastnameValue = this.$refs.clientFormRef.$refs.lastnameInput.value
+        const birthdateValue = this.$refs.clientFormRef.$refs.birthdateInput.value
+        addClient(
+          this.formData.email,
+          this.formData.password,
+          this.formData.confirmpassword,
+          this.formData.phone,
+          firstnameValue,
+          lastnameValue,
+          Date.parse(birthdateValue)
+        )
+      } else if (this.picked === 'Shop') {
+        const nameValue = this.$refs.shopFormRef.$refs.shopname.value
+        const adresseValue = this.$refs.shopFormRef.$refs.address.value
+        const openningValue = this.$refs.shopFormRef.$refs.openning.value
+        const closingValue = this.$refs.shopFormRef.$refs.closing.value
+        addShop(
+          this.formData.email,
+          this.formData.password,
+          this.formData.confirmpassword,
+          nameValue,
+          adresseValue,
+          this.formData.phone,
+          openningValue,
+          closingValue
+        )
+      }
     }
   }
-}
-</script>
 
+}
+
+</script>
 <template>
   <div>
     <section>
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-900">
+        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
           <img class="w-8 h-8 mr-2" src="" alt="">
           ShopLoc
         </a>
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div
+          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+        >
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray md:text-2xl dark:text-gray-900">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray md:text-2xl dark:text-gray-dark">
               Créez un compte
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form class="space-y-4 md:space-y-6" action="#" @submit.prevent="onSubmit">
+
               <div class="flex">
                 <div class="flex items-center mr-4">
                   <input
@@ -62,25 +107,44 @@ export default {
                 </div>
               </div>
 
-              <ClientForm v-if="picked === 'Client'" />
-              <ShopForm v-else-if="picked === 'Shop'" />
+              <ClientForm v-if="picked === 'Client'" ref="clientFormRef" />
+              <ShopForm v-else-if="picked === 'Shop'" ref="shopFormRef" />
 
-              <div>
-                <label for="email" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="example@email.com"
-                  required
-                >
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <label for="phone" class="block mb-2 text-sm font-bold text-gray-dark dark:text-gray">Numéro de téléphone</label>
+                  <input
+                    id="phone"
+                    v-model="formData.phone"
+                    type="number"
+                    name="phone"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="01 23 45 67 89"
+                    required
+                  >
+                  <!-- pattern="[0-9]{10}" -->
+                </div>
+
+                <div class="w-full md:w-1/2 px-3">
+                  <label for="email" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray">Email</label>
+                  <input
+                    id="email"
+                    v-model="formData.email"
+                    type="email"
+                    name="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="example@email.com"
+                    required
+                  >
+                </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <label for="password" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray">Mot de passe</label>
+                  <label for="password" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray">Mot de
+                    passe</label>
                   <input
                     id="password"
+                    v-model="formData.password"
                     type="password"
                     name="password"
                     placeholder="••••••••"
@@ -89,18 +153,26 @@ export default {
                   >
                 </div>
                 <div class="w-full md:w-1/2 px-3">
-                  <label for="confirm-password" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray">Confirmer le mot de passe</label>
+                  <label
+                    for="confirm-password"
+                    class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray"
+                  >Confirmer le mot de passe</label>
                   <input
-                    id="confirm-password"
+                    id="confirmpassword"
+                    v-model="formData.confirmpassword"
                     type="password"
-                    name="confirm-password"
+                    name="confirmpassword"
                     placeholder="••••••••"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   >
                 </div>
               </div>
-              <button type="submit" class="w-full text-gray-900 bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal">
+              <button
+                type="submit"
+                class="w-full text-gray-900 bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
+              >
+
                 Créer un compte
               </button>
               <p class="text-sm font-light text-gray-500 dark:text-gray-400">

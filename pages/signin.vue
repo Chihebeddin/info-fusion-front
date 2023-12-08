@@ -1,3 +1,25 @@
+<script setup>
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../store/auth.module.ts'
+
+const router = useRouter()
+
+const store = useAuthStore()
+
+const formData = {
+  username: '',
+  password: ''
+}
+
+const onSubmit = async () => {
+  console.log('username ' + formData.username)
+  await store.login(formData.username, formData.password).then(() => {
+    router.push('/UserProfile')
+  })
+}
+
+</script>
+
 <template>
   <div>
     <section class="bg-gray-50 dark:bg-gray-900">
@@ -11,13 +33,15 @@
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Accédez à votre espace
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#">
+            <form class="space-y-4 md:space-y-6" action="#" @submit.prevent="onSubmit">
               <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login</label>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login</label>
                 <input
-                  id="email"
-                  type="email"
-                  name="email"
+                  id="username"
+                  v-model="formData.username"
+                  type="username"
+                  name="username"
+
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required
@@ -27,6 +51,7 @@
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot de passe</label>
                 <input
                   id="password"
+                  v-model="formData.password"
                   type="password"
                   name="password"
                   placeholder="••••••••"

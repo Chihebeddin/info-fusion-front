@@ -19,8 +19,9 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    '@vee-validate/nuxt',
+    '@pinia/nuxt'
     '@vee-validate/nuxt'
-
   ],
   veeValidate: {
     autoImports: true,

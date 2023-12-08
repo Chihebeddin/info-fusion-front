@@ -16,3 +16,5 @@ jobs:
         run: npm run lint
       - name: check compile
         run: npm run build
+      - name: Run Cypress tests
+        run: npm run cypress:run

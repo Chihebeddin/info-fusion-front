@@ -2,6 +2,7 @@ import axios from 'axios'
 import { defineStore } from 'pinia'
 
 const baseUrl = 'http://localhost:8080/api/auth'
+// const baseUrl = 'https://infofusion-kat2zxt5wq-od.a.run.app/api/auth'
 
 export const useAuthStore = defineStore({
   id: 'auth',

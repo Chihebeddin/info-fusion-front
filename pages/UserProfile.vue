@@ -26,7 +26,6 @@ const onRefresh = () => {
 onMounted(async () => {
   store.init()
   const response = await store.fetchUserInfo()
-  console.log('ssssiiii ' + JSON.stringify(response.data))
 
   const userEntries = Object.entries(response.data)
   userDataList.value = userEntries.map(([key, value]) => ({ key, value }))

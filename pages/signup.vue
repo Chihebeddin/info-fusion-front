@@ -1,8 +1,8 @@
 <script>
 import { addClient, addShop } from '../services/userService'
-
 import ClientForm from '~/components/signup/ClientForm.vue'
 import ShopForm from '~/components/signup/ShopForm.vue'
+
 export default {
   components: { ClientForm, ShopForm },
   data () {
@@ -26,9 +26,9 @@ export default {
           this.formData.email,
           this.formData.password,
           this.formData.confirmpassword,
-          this.formData.phone,
           firstnameValue,
           lastnameValue,
+          this.formData.phone,
           Date.parse(birthdateValue)
         )
       } else if (this.picked === 'Shop') {
@@ -93,17 +93,6 @@ export default {
                   >
                   <label for="inline-2-radio" class="ml-2 text-sm font-bold text-gray-900 dark:text-gray">Client</label>
                 </div>
-                <div class="flex items-center mr-4">
-                  <input
-                    id="inline-3-radio"
-                    v-model="picked"
-                    value="Other"
-                    type="radio"
-                    name="inline-radio-group"
-                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  >
-                  <label for="inline-3-radio" class="ml-2 text-sm font-bold text-gray-900 dark:text-gray">Autre</label>
-                </div>
               </div>
 
               <ClientForm v-if="picked === 'Client'" ref="clientFormRef" />
@@ -115,13 +104,13 @@ export default {
                   <input
                     id="phone"
                     v-model="formData.phone"
-                    type="number"
+                    type="tel"
                     name="phone"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="01 23 45 67 89"
+                    pattern="0[1-9][0-9]{8}"
                     required
                   >
-                  <!-- pattern="[0-9]{10}" -->
                 </div>
 
                 <div class="w-full md:w-1/2 px-3">

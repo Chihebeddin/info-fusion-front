@@ -9,7 +9,7 @@
         >
           <SplideTrack>
             <SplideSlide v-for="shop in shops" :key="shop.id" data-splide-interval="5000">
-              <NuxtLink to="/customers/shop">
+              <NuxtLink :to="`/shops/${ shop.id }`">
                 <img class="rounded-t-lg" src="../assets/images/grande_surface.jpg" alt="Grande surface">
                 <div class="py-4">
                   <div class="font-bold text-xl mb-2">
@@ -29,7 +29,16 @@
 import axios from 'axios'
 import _ from 'lodash'
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
+import { useAuthStore } from '../store/auth.module.ts'
 import '@splidejs/vue-splide/css/sea-green'
+
+const store = useAuthStore()
+const userDataList = ref([])
+
+const onRefresh = () => {
+  console.log(store.user)
+  console.log(store.token)
+}
 
 export default {
   name: 'Shops',
@@ -63,11 +72,19 @@ export default {
     }
   },
   mounted () {
+    this.userData()
     this.getShopsList()
   },
   methods: {
-    getShopsList () {
-      axios.get('http://localhost:8080/shops').then((res) => {
+    async userData () {
+      store.init()
+      const response = await store.fetchUserInfo()
+      const userEntries = Object.entries(response.data)
+      userDataList.value = userEntries.map(([key, value]) => ({ key, value }))
+      onRefresh()
+    },
+    async getShopsList () {
+      await axios.get('http://localhost:8080/shops').then((res) => {
         this.shops = _.shuffle(res.data).slice(0, 10)
       })
     }

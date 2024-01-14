@@ -21,7 +21,8 @@ export default {
       gray: {
         light: '#f9fafb',
         DEFAULT: '#4b5563',
-        dark: '#030712'
+        dark: '#030712',
+        400: '#d1d5db'
       }
     },
     screens: {
@@ -35,6 +36,8 @@ export default {
       spacing: {
         13: '3.25rem',
         15: '3.75rem',
+        18: '70px',
+        90: '350px',
         128: '32rem',
         144: '36rem'
       }

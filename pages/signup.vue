@@ -17,7 +17,7 @@ export default {
   },
 
   methods: {
-    onSubmit () {
+    async onSubmit () {
       if (this.picked === 'Client') {
         const firstnameValue = this.$refs.clientFormRef.$refs.firstnameInput.value
         const lastnameValue = this.$refs.clientFormRef.$refs.lastnameInput.value
@@ -47,12 +47,13 @@ export default {
           closingValue
         )
       }
+      await this.$router.push('/signin')
     }
   }
 
 }
-
 </script>
+
 <template>
   <div>
     <section>
@@ -68,7 +69,7 @@ export default {
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray md:text-2xl dark:text-gray-dark">
               Créez un compte
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#" @submit.prevent="onSubmit">
+            <form class="space-y-4 md:space-y-6" @submit.prevent="onSubmit">
               <div class="flex">
                 <div class="flex items-center mr-4">
                   <input

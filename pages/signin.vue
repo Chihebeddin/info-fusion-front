@@ -12,7 +12,6 @@ const formData = {
 }
 
 const onSubmit = async () => {
-  console.log('username ' + formData.username)
   await store.login(formData.username, formData.password).then(() => {
     router.push('/UserProfile')
   })
@@ -33,7 +32,7 @@ const onSubmit = async () => {
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Accédez à votre espace
             </h1>
-            <form class="space-y-4 md:space-y-6" action="#" @submit.prevent="onSubmit">
+            <form class="space-y-4 md:space-y-6" @submit.prevent="onSubmit">
               <div>
                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login</label>
                 <input

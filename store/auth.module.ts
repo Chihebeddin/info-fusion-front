@@ -26,9 +26,10 @@ export const useAuthStore = defineStore({
     },
     async login (username: any, password: any) {
       try {
-        const response = await axios.post(`${baseUrl}/SignInClient`, { username, password }, {
+        const response = await axios.post(`${baseUrl}/SignIn`, { username, password }, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            withCredentials: true
           }
         })
 

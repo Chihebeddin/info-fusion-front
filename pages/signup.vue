@@ -166,13 +166,13 @@ export default {
               </div>
               <button
                 type="submit"
-                class="w-full text-gray-900 bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
+                class="w-full text-gray-dark bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
               >
-                Créer un compte
+                S'inscrire
               </button>
               <i class="text-sm font-light text-gray dark:text-gray">
                 Déjà un compte ? <NuxtLink to="/signin" class="font-bold text-teal hover:underline dark:text-teal">
-                  Connectez-vous
+                  Se connecter
                 </NuxtLink>
               </i>
             </form>

@@ -1,6 +1,6 @@
 <script setup>
-// import { useAuthStore } from '@/stores/auth'
-const isAuthenticated = ref(false)
+import { useAuth } from '../store/auth'
+const authStore = useAuth()
 </script>
 
 <template>
@@ -15,8 +15,8 @@ const isAuthenticated = ref(false)
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline">
                 <NuxtLink
-                  v-if="isAuthenticated"
-                  to=""
+                  v-if="authStore.isAuthenticated"
+                  to="/shops/dashboard"
                   class="ml-4 px-3 py-2 rounded-md text-sm font-medium dark:hover:text-teal-light"
                 >
                   Dashboard
@@ -24,7 +24,7 @@ const isAuthenticated = ref(false)
               </div>
             </div>
           </div>
-          <div v-if="!isAuthenticated" class="hidden md:block">
+          <div v-if="!authStore.isAuthenticated" class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               <NuxtLink
                 to="/signin"
@@ -49,7 +49,7 @@ const isAuthenticated = ref(false)
 
 <style lang="css" scoped>
 .router-link-active {
-  background-color: #4b5563;
+  background-color: #f9fafb;
   color: #030712;
 }
 </style>

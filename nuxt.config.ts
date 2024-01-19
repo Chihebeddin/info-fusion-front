@@ -32,8 +32,18 @@ export default defineNuxtConfig({
   modules: [
     '@vee-validate/nuxt',
     '@pinia/nuxt',
-    '@vee-validate/nuxt'
+    '@pinia-plugin-persistedstate/nuxt',
+    '@formkit/nuxt'
+    // '@sidebase/nuxt-auth'
   ],
+
+  /* auth: {
+    baseURL: process.env.AUTH_ORIGIN,
+    provider: {
+      type: 'authjs'
+    }
+  }, */
+
   veeValidate: {
     autoImports: true,
     componentNames: {

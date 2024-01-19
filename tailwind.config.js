@@ -12,11 +12,15 @@ export default {
   theme: {
     colors: {
       transparent: 'transparent',
+      green: '#13ce66',
+      red: '#dc2626',
+      white: '#ffffff',
       teal: {
         light: '#f0fdfa',
         DEFAULT: '#0d9488',
         dark: '#042f2e',
-        700: '#0f766e'
+        700: '#0f766e',
+        900: '#134e4a'
       },
       gray: {
         light: '#f9fafb',

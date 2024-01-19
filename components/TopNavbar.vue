@@ -28,13 +28,13 @@ const isAuthenticated = ref(false)
             <div class="ml-4 flex items-center md:ml-6">
               <NuxtLink
                 to="/signin"
-                class="text-white hover:bg-gray dark:hover:bg-gray group font-bold text-xl py-2 px-4 rounded"
+                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 rounded"
               >
                 Connexion
               </NuxtLink>
               <NuxtLink
                 to="/signup"
-                class="text-white hover:bg-gray dark:hover:bg-gray group font-bold text-xl py-2 px-4 ml-4 rounded"
+                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 ml-4 rounded"
               >
                 Inscription
               </NuxtLink>
@@ -46,3 +46,10 @@ const isAuthenticated = ref(false)
     <slot />
   </div>
 </template>
+
+<style lang="css" scoped>
+.router-link-active {
+  background-color: #4b5563;
+  color: #030712;
+}
+</style>

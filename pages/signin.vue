@@ -1,7 +1,5 @@
 <script setup>
-import { useAuth } from '../store/auth'
 import { useAuthStore } from '../store/auth.module.ts'
-const authStore = useAuth()
 
 // const router = useRouter()
 const store = useAuthStore()
@@ -12,7 +10,6 @@ const formData = {
 
 const onSubmit = async () => {
   await store.login(formData.username, formData.password).then(() => {
-    authStore.setAuthenticated(true)
     navigateTo('/shops/dashboard', { replace: true })
   })
 }

@@ -1,6 +1,5 @@
 <script setup>
-import { useAuth } from '../store/auth'
-const authStore = useAuth()
+
 </script>
 
 <template>
@@ -15,7 +14,6 @@ const authStore = useAuth()
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline">
                 <NuxtLink
-                  v-if="authStore.isAuthenticated"
                   to="/shops/dashboard"
                   class="ml-4 px-3 py-2 rounded-md text-sm font-medium dark:hover:text-teal-light"
                 >
@@ -24,7 +22,7 @@ const authStore = useAuth()
               </div>
             </div>
           </div>
-          <div v-if="!authStore.isAuthenticated" class="hidden md:block">
+          <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               <NuxtLink
                 to="/signin"

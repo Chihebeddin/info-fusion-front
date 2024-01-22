@@ -1,26 +1,4 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useAuthStore } from '../store/auth.module.ts'
-
-const store = useAuthStore()
-//const userDataList = ref([])
-
-const onRefresh = () => {
-  console.log(store.user)
-  console.log(store.token)
-}
-
-onMounted(async () => {
-  store.init()
-  const response = await store.fetchUserInfo()
-  console.log('response ' + JSON.stringify(response.data))
-  store.user = response.data.role
-
-  // const userEntries = Object.entries(response.data)
-  // userDataList.value = userEntries.map(([key, value]) => ({ key, value }))
-
-  onRefresh()
-})
 </script>
 
 <template>

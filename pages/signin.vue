@@ -9,8 +9,20 @@ const formData = {
 }
 
 const onSubmit = async () => {
-  await store.login(formData.username, formData.password).then(() => {
-    navigateTo('/shops/dashboard', { replace: true })
+  await store.login(formData.username, formData.password).then(async () => {
+    try {
+      const response = await store.fetchUserInfo()
+
+      if (response && response.data && response.data.role) {
+        store.user = response.data.role
+        console.log('response ' + JSON.stringify(response.data.role))
+        navigateTo('/shops/dashboard', { replace: true })
+      } else {
+        console.log('Utilisateur inexistant.')
+      }
+    } catch (error) {
+      console.error('Une erreur s\'est produite lors de la récupération des informations utilisateur:', error)
+    }
   })
 }
 

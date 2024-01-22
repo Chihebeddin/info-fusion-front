@@ -16,7 +16,11 @@ const onSubmit = async () => {
       if (response && response.data && response.data.role) {
         store.user = response.data.role
         console.log('response ' + JSON.stringify(response.data.role))
-        navigateTo('/shops/dashboard', { replace: true })
+        if (store.user === 'ROLE_SHOP') {
+          navigateTo('/shops/dashboard', { replace: true })
+        } else if (store.user === 'ROLE_CLIENT') {
+          navigateTo('/customers/shops/', { replace: true })
+        }
       } else {
         console.log('Utilisateur inexistant.')
       }

@@ -15,7 +15,7 @@
               <div class="ml-10 flex items-baseline">
                 <NuxtLink
                   to="/shops/dashboard"
-                  class="ml-4 px-3 py-2 rounded-md text-sm font-medium dark:hover:text-teal-light"
+                  class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-lg py-2 px-4 rounded"
                 >
                   Dashboard
                 </NuxtLink>

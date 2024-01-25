@@ -65,7 +65,7 @@ export default {
   <div class="my-20 w-auto mx-auto">
     <section>
       <div class="flex flex-col items-center justify-center">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
+        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
           <img class="w-20 h-18 mr-2" src="../assets/images/shoploc-logo.png" alt="">
           ShopLoc
         </a>

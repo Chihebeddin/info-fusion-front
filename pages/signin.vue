@@ -22,7 +22,7 @@ const onSubmit = async () => {
           navigateTo('/customers/shops/', { replace: true })
         }
       } else {
-        console.log('Utilisateur inexistant.')
+        console.log('User not found')
       }
     } catch (error) {
       console.error('Une erreur s\'est produite lors de la récupération des informations utilisateur:', error)
@@ -40,14 +40,14 @@ useHead({
   <div class="my-20 w-auto mx-auto">
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center ">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
           <img class="w-20 h-18 mr-2" src="../assets/images/shoploc-logo.png" alt="">
           ShopLoc
         </a>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-white dark:border-gray-400">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray md:text-2xl dark:text-gray-dark">
-              Accédez à votre espace
+              Connexion
             </h1>
             <form class="space-y-4 md:space-y-6" @submit.prevent="onSubmit()">
               <div>
@@ -86,11 +86,6 @@ useHead({
                   S'inscrire
                 </NuxtLink>
               </i>
-              <div v-if="serverError">
-                <p class="bg-red-100 border border-red-400 text-gray px-4 py-2 rounded relative ">
-                  Unable to Login
-                </p>
-              </div>
             </form>
           </div>
         </div>

@@ -3,7 +3,7 @@
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="py-8 px-4 mx-auto max-w-screen-2xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div class="flex flex-col justify-center">
-          <NuxtLink to="/UserProfile" class="text-teal-700 dark:text-white text-lg inline-flex items-center mt-1">
+          <NuxtLink to="/" class="text-teal-700 dark:text-white text-lg inline-flex items-center mt-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

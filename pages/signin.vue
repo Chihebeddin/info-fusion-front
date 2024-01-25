@@ -14,11 +14,10 @@ const onSubmit = async () => {
       const response = await store.fetchUserInfo()
 
       if (response && response.data && response.data.role) {
-        store.user = response.data.role
-        console.log('response ' + JSON.stringify(response.data.role))
-        if (store.user === 'ROLE_SHOP') {
+        console.log('token: ', store.token)
+        if (store.user.role === 'ROLE_SHOP') {
           navigateTo('/shops/dashboard', { replace: true })
-        } else if (store.user === 'ROLE_CLIENT') {
+        } else if (store.user.role === 'ROLE_CLIENT') {
           navigateTo('/customers/shops/', { replace: true })
         }
       } else {

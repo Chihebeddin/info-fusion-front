@@ -20,6 +20,11 @@ export default {
   }
 }
 
+definePageMeta({
+  layout: false,
+  middleware: ['auth']
+})
+
 </script>
 
 <template>
@@ -27,7 +32,7 @@ export default {
     <!-- Sidebar Content Here -->
     <DefaultSidebar />
     <!-- Main Content Here -->
-    <div class="w-full md:w-3/4 px-4 py-8 md:py-12">
+    <div class="w-full md:w-3/4">
       <div class="flex justify-between">
         <h1 class="p-5 text-2xl font-bold text-gray-dark">
           Edit

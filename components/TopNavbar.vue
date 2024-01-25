@@ -1,4 +1,12 @@
 <script setup>
+import { useAuthStore } from '~/store/auth.module'
+
+const auth = useAuthStore()
+
+const onLogout = async () => {
+  auth.logout()
+  await navigateTo('/signin', { replace: true })
+}
 
 </script>
 
@@ -11,18 +19,41 @@
             <div class="flex-shrink-0">
               <a href="/" class="text-white font-bold text-2xl">ShopLoc</a>
             </div>
-            <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline">
-                <NuxtLink
-                  to="/shops/dashboard"
-                  class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-lg py-2 px-4 rounded"
-                >
-                  Dashboard
-                </NuxtLink>
-              </div>
+          </div>
+          <div v-if="auth.token && auth.user.role === 'ROLE_SHOP'" class="hidden md:block">
+            <div class="ml-10 flex items-baseline">
+              <NuxtLink
+                to="/shops/dashboard"
+                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-lg py-2 px-4 rounded"
+              >
+                Dashboard
+              </NuxtLink>
             </div>
           </div>
-          <div class="hidden md:block">
+          <div v-else-if="auth.token && auth.user.role === 'ROLE_CLIENT'" class="hidden md:block">
+            <div class="ml-4 flex items-center md:ml-6">
+              <NuxtLink
+                to="/customers/shops"
+                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 rounded"
+              >
+                Tous les magasins
+              </NuxtLink>
+              <NuxtLink
+                to="/customers/profile"
+                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 ml-4 rounded"
+              >
+                Espace fidélité
+              </NuxtLink>
+              <NuxtLink
+                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 ml-4 rounded"
+              >
+                <button @click="onLogout()">
+                  Se déconnecter
+                </button>
+              </NuxtLink>
+            </div>
+          </div>
+          <div v-else class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               <NuxtLink
                 to="/signin"

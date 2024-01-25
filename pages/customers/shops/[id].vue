@@ -3,7 +3,7 @@
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="py-8 px-4 mx-auto max-w-screen-2xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div class="flex flex-col justify-center">
-          <NuxtLink to="/" class="text-teal-700 dark:text-white text-lg inline-flex items-center mt-1">
+          <NuxtLink to="/customers/shops" class="text-teal-700 dark:text-tel-700 text-lg inline-flex items-center mt-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -38,7 +38,7 @@
         <div v-for="product in products" :key="product.id" cm>
           <div class="h-90 bg-white border border-gray-light shadow dark:bg-white dark:border-gray-400">
             <a href="#">
-              <img src="../../assets/images/baguette.jpg" alt="product image">
+              <img src="../../../assets/images/baguette.jpg" alt="product image">
             </a>
             <div class="mx-3">
               <div class="mt-2 mb-1 h-24 text-ellipsis overflow-hidden">

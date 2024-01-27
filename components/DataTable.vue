@@ -23,11 +23,12 @@ const handleSearch = (search) => {
   searchFilter.value = search
 }
 
-const deleteProduct = async (event, productId) => {
+const deleteProduct = async (productId) => {
   if (confirm('Confirmez la suppression ?')) {
-    event.target.innerText = 'Deleting...'
-    await axios.delete(`http://localhost:8080/products/${productId}`).then(() => {
-      return props.items.filter(item => item.id !== productId)
+    await axios.delete(`http://localhost:8080/products/${productId}`).then((res) => {
+      if (res.status === 200) {
+        localStorage.setItem('success', 'Produit supprimé avec succès !')
+      }
     })
   }
 }
@@ -80,7 +81,7 @@ const deleteProduct = async (event, productId) => {
             </NuxtLink>
             <button
               class="w-fit text-white font-semibold bg-red hover:bg-red-dark rounded-lg px-5 py-2.5 text-center dark:bg-red dark:hover:bg-red-dark"
-              @click="$event => deleteProduct($event, item.id)"
+              @click="deleteProduct(item.id)"
             >
               Supprimer
             </button>

@@ -1,4 +1,29 @@
 <script>
+import axios from 'axios'
+import { useAuthStore } from '~/store/auth.module'
+
+export default {
+  data () {
+    return {
+      auth: useAuthStore(),
+      product: {
+        name: '',
+        price: '',
+        quantity: ''
+      }
+    }
+  },
+  methods: {
+    async createProduct () {
+      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}`, this.product).then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem('success', 'Nouveau produit enregistré avec succès !')
+          navigateTo('/shops/products')
+        }
+      })
+    }
+  }
+}
 
 definePageMeta({
   layout: false,
@@ -21,78 +46,56 @@ definePageMeta({
 
       <section class="bg-gray-light dark:bg-gray-light rounded-sm">
         <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-          <form action="#">
-            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div class="sm:col-span-2">
-                <label for="name" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-dark">Product Name</label>
+          <form @submit.prevent="createProduct">
+            <div class="grid md:grid-cols-2 md:gap-6">
+              <div class="relative z-0 w-full mb-5 group">
                 <input
-                  id="name"
+                  v-model="product.name"
                   type="text"
-                  name="name"
-                  class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type product name"
-                  required="true"
+                  name="floating_product_name"
+                  class="block py-2.5 px-0 w-full text-lg text-gray-dark bg-transparent border-0 border-b-2 border-gray appearance-none focus:outline-none focus:ring-0 focus:border-teal peer"
+                  required
                 >
+                <label
+                  for="floating_product_name"
+                  class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >Nom du produit</label>
               </div>
-              <div class="w-full">
-                <label for="brand" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-dark">Brand</label>
+              <div class="relative z-0 w-full mb-5 group">
                 <input
-                  id="brand"
+                  v-model="product.price"
                   type="text"
-                  name="brand"
-                  class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required="true"
+                  name="floating_price"
+                  class="block py-2.5 px-0 w-full text-lg text-gray-dark bg-transparent border-0 border-b-2 border-gray appearance-none focus:outline-none focus:ring-0 focus:border-teal peer"
+                  required
                 >
-              </div>
-              <div class="w-full">
-                <label for="price" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-dark">Price</label>
-                <input
-                  id="price"
-                  type="number"
-                  name="price"
-                  class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$2999"
-                  required="true"
-                >
-              </div>
-              <div>
-                <label for="category" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-dark">Category</label>
-                <select id="category" class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-dark dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                  <option selected="">
-                    Select category
-                  </option>
-                  <option value="TV">
-                    TV/Monitors
-                  </option>
-                  <option value="PC">
-                    PC
-                  </option>
-                  <option value="GA">
-                    Gaming/Console
-                  </option>
-                  <option value="PH">
-                    Phones
-                  </option>
-                </select>
-              </div>
-              <div>
-                <label for="item-weight" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-dark">Item Weight (kg)</label>
-                <input
-                  id="item-weight"
-                  type="number"
-                  name="item-weight"
-                  class="bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="12"
-                  required="true"
-                >
-              </div>
-              <div class="sm:col-span-2">
-                <label for="description" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-dark">Description</label>
-                <textarea id="description" rows="8" class="block p-2.5 w-full text-sm text-gray-400 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-dark dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your description here" />
+                <label
+                  for="floating_price"
+                  class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >Prix (euros)</label>
               </div>
             </div>
-            <button type="submit" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-semibold text-center text-gray-dark bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+            <div class="grid md:grid-cols-2 md:gap-6">
+              <div class="relative z-0 w-full mb-5 group">
+                <input
+                  v-model="product.quantity"
+                  type="number"
+                  min="0"
+                  max="500"
+                  name="floating_quantity"
+                  class="block py-2.5 px-0 w-full text-lg text-gray-dark bg-transparent border-0 border-b-2 border-gray appearance-none focus:outline-none focus:ring-0 focus:border-teal peer"
+                  required
+                >
+                <label
+                  for="floating_quantity"
+                  class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >Quantité</label>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="w-fit text-white bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
+            >
               Ajouter
             </button>
           </form>

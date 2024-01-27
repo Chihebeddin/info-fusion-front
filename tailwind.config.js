@@ -13,6 +13,7 @@ export default {
     colors: {
       transparent: 'transparent',
       green: {
+        light: '#bbf7d0',
         DEFAULT: '#15803d',
         dark: '#166534'
       },

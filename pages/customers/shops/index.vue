@@ -11,7 +11,8 @@
         <Splide aria-labelledby="autoplay-example-heading" :options="options" :has-track="false">
           <SplideTrack>
             <SplideSlide v-for="shop in shops" :key="shop.id" data-splide-interval="5000">
-              <NuxtLink :to="`/shops/${shop.id}`">
+
+              <NuxtLink :to="`/customers/shops/${ shop.id }`">
                 <img class="rounded-t-lg" src="../../../assets/images/grande_surface.jpg" alt="Grande surface">
                 <div class="py-4">
                   <div class="font-bold text-xl mb-2">

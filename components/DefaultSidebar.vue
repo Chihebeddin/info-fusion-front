@@ -1,16 +1,22 @@
 <script setup>
-/* import { useAuthStore } from '@/stores/auth'
-const authStore = useAuthStore()
+import { useAuthStore } from '~/store/auth.module'
+
+const auth = useAuthStore()
+
 const onLogout = async () => {
-  authStore.$reset()
-  await navigateTo('/account/login', { replace: true })
-} */
+  auth.logout()
+  await navigateTo('/signin', { replace: true })
+}
+
 </script>
 
 <template>
   <div>
-    <aside id="default-sidebar" class="bg-teal-900 fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <aside id="default-sidebar" class="bg-teal-900 fixed top-0 left-0 z-40 w-64 h-screen pt-5 transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
       <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div class="mb-8 ml-2self-center text-4xl font-bold sm:text-4xl dark:text-white">
+          {{ auth.user.name }}
+        </div>
         <div class="space-y-2.5 font-medium">
           <NuxtLink to="/shops/dashboard" class="flex items-center p-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 pr-1">
@@ -18,7 +24,7 @@ const onLogout = async () => {
               <path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd" />
             </svg> Dashboard
           </NuxtLink>
-          <NuxtLink to="/shops/products" class="flex items-center p-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group">
+          <NuxtLink to="/shops/products/" class="flex items-center p-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 pr-1">
               <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z" clip-rule="evenodd" />
             </svg> Produits
@@ -36,11 +42,14 @@ const onLogout = async () => {
               <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
             </svg> Compte
           </NuxtLink>
-          <NuxtLink to="" class="flex items-center p-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group">
+          <button
+            class="flex items-center p-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group"
+            @click="onLogout()"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 pr-1">
               <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-4.28 9.22a.75.75 0 0 0 0 1.06l3 3a.75.75 0 1 0 1.06-1.06l-1.72-1.72h5.69a.75.75 0 0 0 0-1.5h-5.69l1.72-1.72a.75.75 0 0 0-1.06-1.06l-3 3Z" clip-rule="evenodd" />
             </svg> Se déconnecter
-          </NuxtLink>
+          </button>
         </div>
         <div class="my-2.5 space-y-2.5 font-medium border-t border-gray-200">
           <NuxtLink to="/shops/help" class="flex items-center p-2 mt-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group">

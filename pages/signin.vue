@@ -13,7 +13,11 @@ const onSubmit = async () => {
     try {
       const response = await store.fetchUserInfo()
 
+      console.log("hghghghghg "+response.data)
+
       if (response && response.data && response.data.role) {
+        store.user = response.data
+        console.log('response ' + JSON.stringify(store.user.role))
         console.log('token: ', store.token)
         if (store.user.role === 'ROLE_SHOP') {
           navigateTo('/shops/dashboard', { replace: true })

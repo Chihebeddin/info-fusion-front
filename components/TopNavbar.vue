@@ -8,6 +8,13 @@ const onLogout = async () => {
   await navigateTo('/signin', { replace: true })
 }
 
+const isUserLoggedIn = ref(false)
+
+onMounted(() => {
+  store.init()
+  isUserLoggedIn.value = !!store.user
+  console.log("isUserLoggedIn.value "+isUserLoggedIn.value)
+})
 </script>
 
 <template>

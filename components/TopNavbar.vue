@@ -1,5 +1,15 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from '../store/auth.module.ts'
+const store = useAuthStore()
 
+const isUserLoggedIn = ref(false)
+
+onMounted(() => {
+  store.init()
+  isUserLoggedIn.value = !!store.user
+  console.log("isUserLoggedIn.value "+isUserLoggedIn.value)
+})
 </script>
 
 <template>
@@ -23,7 +33,7 @@
             </div>
           </div>
           <div class="hidden md:block">
-            <div class="ml-4 flex items-center md:ml-6">
+            <div v-if="!isUserLoggedIn.value" class="ml-4 flex items-center md:ml-6">
               <NuxtLink
                 to="/signin"
                 class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 rounded"

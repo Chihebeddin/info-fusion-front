@@ -47,18 +47,31 @@ export const useAuthStore = defineStore({
     async fetchUserInfo () {
       console.log('fetchUserInfo:', this.token)
       if (this.token) {
-        return await axios.get(`${baseUrl}/current`, {
-          headers: {
-            Authorization: `Bearer ${this.token}`
-          },
-          withCredentials: true
-        })
+        try {
+          const response = await axios.get(`${baseUrl}/current`, {
+            headers: {
+              Authorization: `Bearer ${this.token}`
+            },
+            withCredentials: true
+          })
+          console.log('response.data MEEEEEE ' + response.data)
+          this.user = response.data
+
+          // Enregistrez également les informations utilisateur dans le local storage
+          localStorage.setItem('user', this.user)
+        console.log('this.user ' + this.user)
+        return response
+      } catch (error) {
+        console.error('Error fetching user info:', error)
       }
-    },
+    }
+  },
 
     logout () {
       this.token = null
+      this.user = null
       localStorage.removeItem('user')
+      localStorage.removeItem('token')
     }
   }
 })

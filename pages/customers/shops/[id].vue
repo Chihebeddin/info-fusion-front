@@ -58,6 +58,9 @@
           </div>
         </div>
       </div>
+      <div class="fixed top-64 right-0 z-40 w-64 h-screen pt-5 transition-transform -translate-x-full sm:translate-x-0"">
+        <ShoppingCart />
+      </div>
     </section>
   </div>
 </template>

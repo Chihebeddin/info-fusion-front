@@ -47,26 +47,25 @@ export const useAuthStore = defineStore({
     async fetchUserInfo () {
       console.log('fetchUserInfo:', this.token)
       if (this.token) {
-        try {
-          const response = await axios.get(`${baseUrl}/current`, {
-            headers: {
-              Authorization: `Bearer ${this.token}`
-            },
-            withCredentials: true
-          })
-          console.log('response.data MEEEEEE ' + response.data)
-          this.user = response.data
-
-          // Enregistrez également les informations utilisateur dans le local storage
+        const response = await axios.get(`${baseUrl}/current`, {
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          },
+          withCredentials: true
+        })
+        if (response.data.role === 'ROLE_CLIENT') {
+          const client = await axios.get(`http://localhost:8080/clients/${response.data.id}`)
+          this.user = client.data
           localStorage.setItem('user', this.user)
-        console.log('this.user ' + this.user)
-        return response
-      } catch (error) {
-        console.error('Error fetching user info:', error)
+        } else if (response.data.role === 'ROLE_SHOP') {
+          const shop = await axios.get(`http://localhost:8080/shops/${response.data.id}`)
+          this.user = shop.data
+          localStorage.setItem('user', this.user)
+        }
 
+        return response
       }
-    }
-  },
+    },
 
     logout () {
       this.token = null

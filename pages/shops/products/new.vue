@@ -6,20 +6,30 @@ export default {
   data () {
     return {
       auth: useAuthStore(),
+      categories: [],
       product: {
         name: '',
         price: '',
         quantity: ''
-      }
+      },
+      selected: ''
     }
+  },
+  mounted () {
+    this.getCategories()
   },
   methods: {
     async createProduct () {
-      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}`, this.product).then((res) => {
+      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}&ctg=${this.selected}`, this.product).then((res) => {
         if (res.status === 200) {
           localStorage.setItem('success', 'Nouveau produit enregistré avec succès !')
           navigateTo('/shops/products')
         }
+      })
+    },
+    getCategories () {
+      axios.get('http://localhost:8080/categories').then((res) => {
+        this.categories = res.data
       })
     }
   }
@@ -90,6 +100,23 @@ definePageMeta({
                   for="floating_quantity"
                   class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >Quantité</label>
+              </div>
+              <div class="relative z-0 w-full mb-5 group">
+                <select
+                  v-model="selected"
+                  class="block py-2.5 px-0 w-full text-lg text-gray-dark bg-transparent border-0 border-b-2 border-gray appearance-none focus:outline-none focus:ring-0 focus:border-teal peer"
+                >
+                  <option disabled value="">
+                    Sélectionnez une catégorie
+                  </option>
+                  <option v-for="category in categories" :key="category.id" :value="category.id">
+                    {{ category.name }}
+                  </option>
+                </select>
+                <label
+                  for="floating_category"
+                  class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >Catégorie</label>
               </div>
             </div>
             <button

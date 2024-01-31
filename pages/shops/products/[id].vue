@@ -7,12 +7,15 @@ export default {
     return {
       productId: '',
       product: {},
-      isLoading: false
+      isLoading: false,
+      categories: [],
+      category: ''
     }
   },
   mounted () {
     this.productId = useRoute().params.id
     this.getProduct(this.productId)
+    this.getCategories()
   },
   methods: {
     async getProduct (productId) {
@@ -20,6 +23,7 @@ export default {
       await axios.get(`http://localhost:8080/products/${productId}`).then((res) => {
         this.isLoading = false
         this.product = res.data
+        this.category = res.data.category
       })
     },
     async updateProduct () {
@@ -30,6 +34,11 @@ export default {
           localStorage.setItem('success', 'Modification enregistré avec succès !')
           navigateTo('/shops/products')
         }
+      })
+    },
+    getCategories () {
+      axios.get('http://localhost:8080/categories').then((res) => {
+        this.categories = res.data
       })
     }
   }
@@ -107,6 +116,19 @@ definePageMeta({
                   for="floating_quantity"
                   class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >Quantité</label>
+              </div>
+              <div class="relative z-0 w-full mb-5 group">
+                <input
+                  v-model="category.name"
+                  type="text"
+                  name="floating_category"
+                  class="block py-2.5 px-0 w-full text-lg text-gray-dark bg-transparent border-0 border-b-2 border-gray appearance-none focus:outline-none focus:ring-0 focus:border-teal peer"
+                  disabled
+                >
+                <label
+                  for="floating_category"
+                  class="peer-focus:font-bold absolute text-lg text-gray-dark dark:text-gray-dark duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-teal peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >Catégorie</label>
               </div>
             </div>
             <button

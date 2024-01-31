@@ -13,7 +13,7 @@ const searchFilter = ref('')
 const filteredItems = computed(() => {
   if (searchFilter.value !== '') {
     return props.items.filter(item =>
-      item.name.includes(searchFilter.value))
+      item.name.includes(searchFilter.value) || item.category.name.includes(searchFilter.value))
   } else {
     return props.items
   }
@@ -58,6 +58,9 @@ const deleteProduct = async (productId) => {
             Quantité
           </th>
           <th scope="col" class="px-4 py-3">
+            Catégorie
+          </th>
+          <th scope="col" class="px-4 py-3">
             Action
           </th>
         </tr>
@@ -72,6 +75,9 @@ const deleteProduct = async (productId) => {
           </td>
           <td class="px-4 py-3 text-gray-dark">
             {{ item.quantity }}
+          </td>
+          <td class="px-4 py-3 text-gray-dark">
+            {{ item.category.name }}
           </td>
           <td class="px-4 py-3 space-x-2.5">
             <NuxtLink :to="`/shops/products/${ item.id }`">

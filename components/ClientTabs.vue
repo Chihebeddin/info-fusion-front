@@ -1,10 +1,10 @@
 <script setup>
-/* import { useAuthStore } from '@/stores/auth'
-const authStore = useAuthStore()
-const onLogout = async () => {
-  authStore.$reset()
-  await navigateTo('/account/login', { replace: true })
-} */
+import { useAuthStore } from '../store/auth.module.ts'
+const store = useAuthStore()
+// const onLogout = async () => {
+//   authStore.$reset()
+//   await navigateTo('/account/login', { replace: true })
+// }
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const onLogout = async () => {
           Espace fidélité
         </h1>
         <p class="text-lg font-normal text-gray-dark lg:text-xl sm:px-4 lg:px-4 dark:text-gray-dark">
-          John Doe
+          {{ store.user && store.user.firstName }} {{ store.user && store.user.lastName }}
         </p>
       </div>
     </section>

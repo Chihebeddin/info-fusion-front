@@ -56,7 +56,6 @@ export const useAuthStore = defineStore({
         if (response.data.role === 'ROLE_CLIENT') {
           const client = await axios.get(`http://localhost:8080/clients/${response.data.id}`)
           this.user = client.data
-          console.log("yoyoyoyo: "+this.user)
           localStorage.setItem('user', this.user)
         } else if (response.data.role === 'ROLE_SHOP') {
           const shop = await axios.get(`http://localhost:8080/shops/${response.data.id}`)

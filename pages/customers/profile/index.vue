@@ -1,5 +1,6 @@
 <script steup>
 import QRCode from 'qrcode'
+import { useAuthStore } from '../store/auth.module.ts'
 
 const store = useAuthStore()
 const userDataList = ref([])

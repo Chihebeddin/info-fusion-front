@@ -49,13 +49,33 @@
               <div class="mb-1">
                 <span class="text-lg font-medium text-gray">{{ product.price }} €</span>
               </div>
-              <div class="mb-2">
+              <div class="mb-2 relative flex items-center">
                 <button
-                  type="submit"
-                  class="w-full text-teal border border-gray-light hover:text-teal-700 hover:border-gray-400 focus:ring-1 focus:outline-none focus:ring-gray-light font-medium rounded-sm text-2xl px-5 py-1 text-center dark:bg-gray-light dark:focus:ring-gray-light"
-                  @click="addToCart(product)"
+                  type="button"
+                  data-input-counter-decrement="counter-input"
+                  class="flex-shrink-0 inline-flex items-center justify-center rounded-sm h-7 w-7 dark:bg-gray-light border border-gray-light hover:text-teal-700 hover:border-gray-400"
+                  @click="minus(product)"
                 >
-                  +
+                  <svg class="w-5 h-5 text-teal" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                  </svg>
+                </button>
+                <input
+                  type="text"
+                  min="0"
+                  :max="product.quantity"
+                  data-input-counter
+                  class="flex-shrink-0 text-gray border-0 bg-transparent text-xl font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
+                >
+                <button
+                  type="button"
+                  data-input-counter-increment="counter-input"
+                  class="flex-shrink-0 inline-flex items-center justify-center rounded-sm h-7 w-7 dark:bg-gray-light border border-gray-light hover:text-teal-700 hover:border-gray-400"
+                  @click="plus(product)"
+                >
+                  <svg class="w-5 h-5 text-teal" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                  </svg>
                 </button>
               </div>
             </div>
@@ -72,6 +92,12 @@
 <script>
 import { useRoute } from 'vue-router'
 import axios from 'axios'
+import { useAuthStore } from '../../../store/auth.module.ts'
+
+definePageMeta({
+  layout: 'default',
+  middleware: ['auth']
+})
 
 export default {
   data () {
@@ -79,15 +105,23 @@ export default {
       shopId: '',
       shop: '',
       products: ref([]),
-      itemsSelected: ref([])
+      itemsSelected: ref([]),
+      store: useAuthStore(),
+      qte: ''
     }
   },
   mounted () {
     this.shopId = useRoute().params.id
     this.getShop(this.shopId)
     this.getProducts(this.shopId)
+    this.userData()
   },
   methods: {
+    async userData () {
+      const store = useAuthStore()
+      store.init()
+      await store.fetchUserInfo()
+    },
     async getShop (shopId) {
       await axios.get(`http://localhost:8080/shops/${shopId}`).then((res) => {
         this.shop = res.data
@@ -98,7 +132,7 @@ export default {
         this.products = res.data
       })
     },
-    addToCart (elt) {
+    plus (elt) {
       const updatedElt = this.itemsSelected.find(item => item.id === elt.id)
       if (updatedElt !== undefined) {
         updatedElt.quantity++
@@ -109,6 +143,14 @@ export default {
           price: elt.price,
           quantity: 1
         })
+      }
+    },
+    minus (elt) {
+      const updatedElt = this.itemsSelected.find(item => item.id === elt.id)
+      if (updatedElt.quantity >= 1) {
+        updatedElt.quantity--
+      } if (updatedElt.quantity === 0 && updatedElt !== undefined) {
+        this.itemsSelected = this.itemsSelected.filter(item => item.id !== elt.id)
       }
     }
   }

@@ -26,12 +26,12 @@ import axios from 'axios'
 import _ from 'lodash'
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css/sea-green'
+import { useAuthStore } from '../../../store/auth.module.ts'
 
-/* const onRefresh = () => {
-  console.log(store.user)
-  console.log(store.token)
-} */
-
+definePageMeta({
+  layout: 'default',
+  middleware: ['auth']
+})
 export default {
   name: 'Shops',
   components: {
@@ -62,18 +62,16 @@ export default {
     }
   },
   mounted () {
-    // this.userData()
+    this.userData()
     this.getShopsList()
   },
   methods: {
-    /* async userData () {
+    async userData () {
+      const store = useAuthStore()
       store.init()
-      const response = await store.fetchUserInfo()
-      console.log('response : ', response.data)
-      const userEntries = Object.entries(response.data)
-      userDataList.value = userEntries.map(([key, value]) => ({ key, value }))
-      onRefresh()
-    }, */
+      await store.fetchUserInfo()
+      // console.log('response : ', response.data)
+    },
     async getShopsList () {
       await axios.get('http://localhost:8080/shops').then((res) => {
         this.shops = _.shuffle(res.data).slice(0, 10)

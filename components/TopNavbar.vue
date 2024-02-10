@@ -23,17 +23,7 @@ onMounted(() => {
               <a href="/" class="text-white font-bold text-2xl">ShopLoc</a>
             </div>
           </div>
-          <div v-if="auth.token && auth.user.role === 'ROLE_SHOP'" class="hidden md:block">
-            <div class="ml-10 flex items-baseline">
-              <NuxtLink
-                to="/shops/dashboard"
-                class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-lg py-2 px-4 rounded"
-              >
-                Dashboard
-              </NuxtLink>
-            </div>
-          </div>
-          <div v-else-if="auth.token && auth.user.role === 'ROLE_CLIENT'" class="hidden md:block">
+          <div v-if="auth.token && auth.user.role === 'ROLE_CLIENT'" class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
               <NuxtLink
                 to="/customers/shops"

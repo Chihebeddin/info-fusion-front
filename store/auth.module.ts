@@ -15,12 +15,12 @@ export const useAuthStore = defineStore({
     init () {
       const storedToken = localStorage.getItem('token')
       if (storedToken) {
-        // console.log('storedToken:', storedToken)
+        console.log('storedToken:', storedToken)
         this.token = storedToken
       }
       const storedUser = localStorage.getItem('user')
       if (storedUser) {
-        // console.log('storedUser:', storedUser)
+        console.log('storedUser:', JSON.stringify(storedUser))
         this.user = storedUser
       }
     },

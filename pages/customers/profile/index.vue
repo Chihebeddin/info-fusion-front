@@ -25,7 +25,7 @@ const userData = async () => {
   // store.init()
   const response = await store.fetchUserInfo()
   console.log('response : ', response.data)
-  const userId = response.data.id.toString() // Assuming the user id is present in the response data
+  const userId = response.data.id.toString()
   console.log('User ID:', userId)
 
   QRCode.toDataURL(userId).then((url) => {

@@ -43,7 +43,7 @@ const userData = async () => {
 <template>
   <div class="p-4 mt-9 sm:ml-64">
     <!-- Main Content Here -->
-    <div class="w-full md:w-3/4 px-4 py-8 md:py-12">
+    <div class="w-full md:w-4/5 px-4 py-8 md:py-12">
       <ClientTabs />
       <div class="">
         <div class="grid grid-cols-2 gap-4">

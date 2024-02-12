@@ -11,6 +11,10 @@ const state = ref({
   qrCodeUrl: ''
 })
 
+useHead({
+  title: 'ShopLoc'
+})
+
 onMounted(() => {
   userData()
   // getShopsList()

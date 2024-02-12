@@ -4,6 +4,11 @@ import axios from 'axios'
 import { useAuthStore } from '../../store/auth.module.ts'
 
 export default {
+  setup () {
+    useHead({
+      title: 'Points'
+    })
+  },
   data () {
     return {
       fidelityCard: ref([])

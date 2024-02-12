@@ -3,6 +3,11 @@
 import { useAuthStore } from '../../store/auth.module.ts'
 
 export default {
+  setup () {
+    useHead({
+      title: 'Avantages'
+    })
+  },
   data () {
     return {
       client: ref([])

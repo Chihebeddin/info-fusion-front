@@ -1,5 +1,10 @@
 <script setup>
 
+import axios from 'axios'
+import { useAuthStore } from '../store/auth.module.ts'
+
+const store = useAuthStore()
+
 const props = defineProps({
   items: {
     type: Array,
@@ -10,6 +15,15 @@ const props = defineProps({
 const computeTotal = () => {
   const tab = props.items.map(item => item.quantity * item.price)
   return tab.reduce((acc, value) => acc + value, 0).toFixed(2)
+}
+
+const submitOrder = async () => {
+  await axios.post(`http://localhost:8080/orders/create?client=${store.user.id}`, props.items).then((res) => {
+    if (res.status === 200) {
+      localStorage.setItem('success', 'Votre commande a été enregistrée avec succès !')
+      navigateTo('/customers/orders')
+    }
+  })
 }
 
 </script>
@@ -64,6 +78,7 @@ const computeTotal = () => {
         <button
           type="submit"
           class="w-full mt-1 text-white bg-teal hover:bg-teal-700 focus:ring-2 focus:outline-none focus:ring-teal-light font-bold rounded-sm text-xl px-5 py-3 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
+          @click="submitOrder"
         >
           Finaliser la commande
         </button>

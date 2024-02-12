@@ -16,6 +16,12 @@
             </SplideSlide>
           </SplideTrack>
         </Splide>
+        <button
+          type="submit"
+          class="w-fit mt-1 text-white bg-teal hover:bg-teal-700 focus:ring-2 focus:outline-none focus:ring-teal-light font-bold rounded-2xl text-xl px-5 py-3 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
+        >
+          Plus
+        </button>
       </div>
     </section>
   </div>

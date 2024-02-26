@@ -12,6 +12,12 @@ export default {
   theme: {
     colors: {
       transparent: 'transparent',
+      blue: {
+        100: '#dbeafe',
+        300: '#93c5fd',
+        800: '#1e40af',
+        900: '#1e3a8a'
+      },
       green: {
         light: '#bbf7d0',
         DEFAULT: '#16a34a',
@@ -39,7 +45,9 @@ export default {
         light: '#f9fafb',
         DEFAULT: '#4b5563',
         dark: '#030712',
-        400: '#d1d5db'
+        300: '#e5e7eb',
+        400: '#d1d5db',
+        500: '#9ca3af'
       }
     },
     screens: {
@@ -56,6 +64,7 @@ export default {
         18: '70px',
         74: '295px',
         90: '350px',
+        98: '28rem',
         128: '32rem',
         144: '36rem'
       }

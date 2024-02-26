@@ -14,12 +14,18 @@ export default {
       transparent: 'transparent',
       green: {
         light: '#bbf7d0',
-        DEFAULT: '#15803d',
-        dark: '#166534'
+        DEFAULT: '#16a34a',
+        dark: '#15803d'
+      },
+      orange: {
+        light: '#fed7aa',
+        DEFAULT: '#d97706',
+        dark: '#92400e'
       },
       red: {
-        DEFAULT: '#b91c1c',
-        dark: '#991b1b'
+        light: '#fecaca',
+        DEFAULT: '#dc2626',
+        dark: '#b91c1c'
       },
       white: '#ffffff',
       teal: {

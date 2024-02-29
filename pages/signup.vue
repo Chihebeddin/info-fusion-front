@@ -43,15 +43,21 @@ export default {
         const adresseValue = this.$refs.shopFormRef.$refs.address.value
         const openningValue = this.$refs.shopFormRef.$refs.openning.value
         const closingValue = this.$refs.shopFormRef.$refs.closing.value
+        const imgValue = this.$refs.shopFormRef.$refs.image.files[0]
+        // const formData = new FormData()
+        // formData.append('image', imgValue)
+        console.log(imgValue)
+        console.log(this.formData.password)
         addShop(
-          this.formData.email,
-          this.formData.password,
-          this.formData.confirmpassword,
           nameValue,
           adresseValue,
           this.formData.phone,
           openningValue,
-          closingValue
+          closingValue,
+          imgValue,
+          this.formData.email,
+          this.formData.password,
+          this.formData.confirmpassword
         )
       }
       await this.$router.push('/signin')

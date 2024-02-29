@@ -53,6 +53,36 @@
           required
         >
       </div>
+      <div class="w-full md:w-1/2 px-3">
+        <label for="image" class="block mb-2 text-sm font-bold text-gray-dark dark:text-gray-dark">Image</label>
+        <input
+          id="image"
+          ref="image"
+          type="file"
+          name="image"
+          class="bg-gray-50 border border-gray-400 text-gray-dark sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          required
+          @change="handleFileUpload"
+        >
+      </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      selectedFile: null
+    }
+  },
+  methods: {
+    handleFileUpload (event) {
+      this.selectedFile = event.target.files[0]
+      const formData = new FormData()
+      formData.append('image', this.selectedFile)
+      console.log(formData)
+    }
+  }
+}
+</script>

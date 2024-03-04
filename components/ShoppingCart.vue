@@ -13,16 +13,27 @@ export default {
   data () {
     return {
       store: useAuthStore(),
-      picked: ref('Cash')
+      picked: ref('Cash'),
+      card: ref([])
     }
   },
+  mounted () {
+    this.getFidelityCard()
+  },
   methods: {
+    getFidelityCard () {
+      axios.get(`http://localhost:8080/fidelitycards/client/${this.store.user.id}`).then((res) => {
+        if (res.status === 200) {
+          this.card = res.data
+        }
+      })
+    },
     computeTotal () {
       const tab = this.$props.items.map(item => item.quantity * item.price)
       return tab.reduce((acc, value) => acc + value, 0).toFixed(2)
     },
     async submitOrder () {
-      await axios.post(`http://localhost:8080/orders/create?client=${this.store.user.id}`, this.$props.items).then((res) => {
+      await axios.post(`http://localhost:8080/orders/create?client=${this.store.user.id}&payment=${this.picked}`, this.$props.items).then((res) => {
         if (res.status === 200) {
           localStorage.setItem('success', 'Votre commande a été enregistrée avec succès !')
           navigateTo('/customers/orders')
@@ -164,7 +175,7 @@ export default {
                   <span class="pl-2">
                     <label for="fidelity-card" class="text-sm">Carte fidélité/paiement</label>
                     <p id="fidelity-card-text" class="text-sm text-gray-500">
-                      Solde actuel : €
+                      Solde actuel : {{ card.solde }} €
                     </p>
                   </span>
                 </div>

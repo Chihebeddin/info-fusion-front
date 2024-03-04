@@ -117,7 +117,7 @@ definePageMeta({
                 </span>
               </td>
               <td class="text-end pl-4 pr-1 text-gray-dark">
-                {{ order.total }} €
+                {{ order.total.toFixed(2) }} €
               </td>
               <td class="text-start pr-4 pl-1 text-gray-dark">
                 {{ order.status }}

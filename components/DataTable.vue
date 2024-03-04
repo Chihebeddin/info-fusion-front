@@ -10,18 +10,51 @@ const props = defineProps({
 })
 
 const searchFilter = ref('')
+const radioFilter = ref('')
+const categoryFilter = ref([])
+const check = ref(false)
 
 const filteredItems = computed(() => {
-  if (searchFilter.value !== '') {
-    return props.items.filter(item =>
-      item.name.includes(searchFilter.value) || item.category.name.includes(searchFilter.value))
-  } else {
-    return props.items
+  let items = props.items
+
+  switch (radioFilter.value) {
+    case 'in':
+      items = items.filter(item => item.quantity >= item.safetyStock)
+      break
+    case 'low':
+      items = items.filter(item => item.quantity < item.safetyStock && item.quantity >= 1)
+      break
+    case 'out':
+      items = items.filter(item => item.quantity < 1)
+      break
   }
+
+  if (categoryFilter.value.length) {
+    items = items.filter(item => categoryFilter.value.includes(item.category.name))
+  }
+
+  if (searchFilter.value !== '') {
+    items = items.filter(item =>
+      item.name.includes(searchFilter.value) || item.category.name.includes(searchFilter.value))
+  }
+  return items
 })
 
 const handleSearch = (search) => {
   searchFilter.value = search
+}
+
+const handleRadioFilter = (filter) => {
+  radioFilter.value = filter
+}
+
+const handleCheckboxFilter = (filter) => {
+  if (categoryFilter.value.includes(filter)) {
+    check.value = false
+    return categoryFilter.value.splice(categoryFilter.value.indexOf(filter), 1)
+  }
+  check.value = true
+  return categoryFilter.value.push(filter)
 }
 
 const deleteProduct = async (productId) => {
@@ -45,16 +78,29 @@ const change = (id) => {
 </script>
 
 <template>
-  <div>
-    <div class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 pb-4">
+  <div class="relative">
+    <div class="flex items-center justify-between mb-4">
+      <!-- Search bar -->
       <SearchForm @search="handleSearch" />
-      <button
-        id="show-modal"
-        class="w-fit text-white font-semibold bg-teal hover:bg-teal-700 rounded-lg px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700"
-        @click="showModal = true; msg = 'add'"
-      >
-        Ajouter un produit
-      </button>
+
+      <div>
+        <!-- Add button -->
+        <button
+          id="show-modal"
+          class="w-fit text-white font-semibold bg-teal hover:bg-teal-700 rounded-lg px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700"
+          @click="showModal = true; msg = 'add'"
+        >
+          Ajouter un produit
+        </button>
+      </div>
+
+      <div class="flex items-center justify-end text-sm font-semibold">
+        <!-- Radio buttons -->
+        <FilterRadios @filter="handleRadioFilter" />
+
+        <!-- List of filters for categories -->
+        <FilterDropdown :items="items" :selected="categoryFilter" @filter="handleCheckboxFilter" />
+      </div>
     </div>
 
     <Teleport to="body">
@@ -63,7 +109,7 @@ const change = (id) => {
     </Teleport>
 
     <table class="w-full text-sm text-left rtl:text-right text-gray dark:text-gray-400">
-      <thead class="text-sm text-gray-dark uppercase dark:bg-gray-light dark:text-gray-dark">
+      <thead class="text-sm text-gray-dark uppercase bg-gray-400 dark:text-gray-dark">
         <tr>
           <th scope="col" class="px-4 py-3">
             Nom du produit
@@ -91,11 +137,11 @@ const change = (id) => {
             {{ item.price }} €
           </td>
           <td class="px-4 py-3 text-gray-dark">
-            <span v-if="item.quantity >= item.safetyStock " class="inline-flex items-center bg-green-light text-green-dark text-xs font-medium px-2.5 py-0.5 rounded-full">
+            <span v-if="item.quantity >= item.safetyStock" class="inline-flex items-center bg-green-light text-green-dark text-xs font-medium px-2.5 py-0.5 rounded-full">
               <span class="w-2 h-2 me-1 bg-green rounded-full" />
               En stock
             </span>
-            <span v-else-if="item.quantity < item.safetyStock && item.quantity >= 1 " class="inline-flex items-center bg-orange-light text-orange-dark text-xs font-medium px-2.5 py-0.5 rounded-full">
+            <span v-else-if="item.quantity < item.safetyStock && item.quantity >= 1" class="inline-flex items-center bg-orange-light text-orange-dark text-xs font-medium px-2.5 py-0.5 rounded-full">
               <span class="w-2 h-2 me-1 bg-orange rounded-full" />
               Stock faible
             </span>

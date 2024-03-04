@@ -6,7 +6,7 @@
           <div class="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4">
             <div v-for="shop in shops" :key="shop.id">
               <NuxtLink :to="`/customers/shops/${ shop.id }`">
-                <img :src="getShopImage(shop.id)" class="rounded-t-lg" :alt="shop.name">
+                <img :src="getShopImage(shop.id)" class="rounded-t-lg h-64 w-full object-contain" :alt="shop.name">
                 <div class="py-4">
                   <div class="font-bold text-xl mb-2">
                     {{ shop.name }}

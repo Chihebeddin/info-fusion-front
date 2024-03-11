@@ -2,6 +2,7 @@
 import { addClient, addShop } from '../services/userService'
 import ClientForm from '~/components/signup/ClientForm.vue'
 import ShopForm from '~/components/signup/ShopForm.vue'
+import { useLocationStore } from '@/store/location'
 
 export default {
   components: { ClientForm, ShopForm },
@@ -19,12 +20,17 @@ export default {
         email: '',
         password: '',
         confirmpassword: ''
-      }
+      },
+      selectedTypes: []
     }
   },
 
   methods: {
     async onSubmit () {
+      const locationStore = useLocationStore()
+      const longitude = locationStore.longitude
+      const latitude = locationStore.latitude
+      console.log(longitude)
       if (this.picked === 'Client') {
         const firstnameValue = this.$refs.clientFormRef.$refs.firstnameInput.value
         const lastnameValue = this.$refs.clientFormRef.$refs.lastnameInput.value
@@ -44,6 +50,8 @@ export default {
         const openningValue = this.$refs.shopFormRef.$refs.openning.value
         const closingValue = this.$refs.shopFormRef.$refs.closing.value
         const imgValue = this.$refs.shopFormRef.$refs.image.files[0]
+        const selectedTypes = this.$refs.shopFormRef.selectedTypes
+        console.log(selectedTypes)
         // const formData = new FormData()
         // formData.append('image', imgValue)
         console.log(imgValue)
@@ -56,6 +64,9 @@ export default {
           closingValue,
           imgValue,
           this.formData.email,
+          longitude,
+          latitude,
+          selectedTypes,
           this.formData.password,
           this.formData.confirmpassword
         )
@@ -110,7 +121,7 @@ export default {
               </div>
 
               <ClientForm v-if="picked === 'Client'" ref="clientFormRef" />
-              <ShopForm v-else-if="picked === 'Shop'" ref="shopFormRef" />
+              <ShopForm v-else-if="picked === 'Shop'" ref="shopFormRef" :selectedtypes="selectedTypes" />
 
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">

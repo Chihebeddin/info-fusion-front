@@ -15,6 +15,9 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
             </svg>
           </NuxtLink>
+          <div class="fixed top-15 right-10 z-40 w-1/3 max-w-auto h-screen pt-5">
+            <ShopLocation />
+          </div>
           <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-dark md:text-5xl lg:text-6xl mt-5">
             {{ shop.name }}
           </h1>

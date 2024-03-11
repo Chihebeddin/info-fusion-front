@@ -16,6 +16,9 @@ export async function addShop (
   closingTime: string | Blob,
   image: File | Blob,
   email: string | Blob,
+  longitude: any,
+  latitude: any,
+  ShopType: any,
   password: string | Blob,
   confirmPassword: string | Blob
 ) {
@@ -28,8 +31,13 @@ export async function addShop (
   formData.append('image', image) // Make sure 'image' is being appended correctly
 
   formData.append('email', email)
+  formData.append('longitude', longitude)
+  formData.append('latitude', latitude)
+  formData.append('selectedTypes', ShopType)
   formData.append('password', password)
   formData.append('confirmPassword', confirmPassword)
+
+  console.log(ShopType)
 
   try {
     const response = await axios.post('http://localhost:8080/api/auth/SignUpShop', formData, {
@@ -39,6 +47,6 @@ export async function addShop (
     })
     return response
   } catch (error) {
-    throw new Error("NNNNNNNNNNNNNNNNNNNN")
+    throw new Error('NNNNNNNNNNNNNNNNNNNN')
   }
 }

@@ -32,7 +32,7 @@ export default {
 
 <template>
   <div class="p-4 mt-9 sm:ml-64">
-*    <div class="w-full md:w-4/5 px-4 py-8 md:py-12">
+    <div class="w-full md:w-4/5 px-4 py-8 md:py-12">
       <ClientTabs />
       <div
         class="mt-8 p-5 mb-4 border border-gray-light rounded-md bg-gray-light shadow dark:bg-gray-light dark:border-gray-light"

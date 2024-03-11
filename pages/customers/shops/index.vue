@@ -2,20 +2,20 @@
   <div>
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <Splide aria-labelledby="autoplay-example-heading" :options="options" :has-track="false">
-          <SplideTrack>
-            <SplideSlide v-for="shop in shops" :key="shop.id" data-splide-interval="5000">
+        <div id="IndexPage" class="mt-4 max-w-[1200px] mx-auto px-2">
+          <div class="grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4">
+            <div v-for="shop in shops" :key="shop.id">
               <NuxtLink :to="`/customers/shops/${ shop.id }`">
-                <img class="rounded-t-lg" src="../../../assets/images/grande_surface.jpg" alt="Grande surface">
+                <img :src="getShopImage(shop.id)" class="rounded-t-lg h-64 w-full object-contain" :alt="shop.name">
                 <div class="py-4">
                   <div class="font-bold text-xl mb-2">
                     {{ shop.name }}
                   </div>
                 </div>
               </NuxtLink>
-            </SplideSlide>
-          </SplideTrack>
-        </Splide>
+            </div>
+          </div>
+        </div>
         <button
           type="submit"
           class="w-fit mt-1 text-white bg-teal hover:bg-teal-700 focus:ring-2 focus:outline-none focus:ring-teal-light font-bold rounded-2xl text-xl px-5 py-3 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
@@ -30,7 +30,6 @@
 <script>
 import axios from 'axios'
 import _ from 'lodash'
-import { Splide, SplideSlide, SplideTrack } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css/sea-green'
 import { useAuthStore } from '../../../store/auth.module.ts'
 
@@ -40,11 +39,6 @@ definePageMeta({
 })
 export default {
   name: 'Shops',
-  components: {
-    Splide,
-    SplideTrack,
-    SplideSlide
-  },
   setup () {
     useHead({
       title: 'Accueil'
@@ -64,7 +58,8 @@ export default {
   },
   data () {
     return {
-      shops: {}
+      shops: [],
+      baseUrl: 'http://localhost:8080/shops/'
     }
   },
   mounted () {
@@ -76,14 +71,38 @@ export default {
       const store = useAuthStore()
       store.init()
       await store.fetchUserInfo()
-      // console.log('response : ', response.data)
     },
     async getShopsList () {
       await axios.get('http://localhost:8080/shops').then((res) => {
         this.shops = _.shuffle(res.data).slice(0, 10)
+        // Call method to get images for each shop
+        this.loadShopImages()
       })
+    },
+    loadShopImages () {
+      this.shops.forEach((shop) => {
+        axios.get(this.baseUrl + `${shop.id}/image`, { responseType: 'arraybuffer' })
+          .then((response) => {
+            const base64Image = this.arrayBufferToBase64(response.data)
+            shop.imageUrl = `data:image/jpeg;base64,${base64Image}`
+          })
+          .catch((error) => {
+            console.error('Error fetching image:', error)
+          })
+      })
+    },
+    arrayBufferToBase64 (buffer) {
+      let binary = ''
+      const bytes = new Uint8Array(buffer)
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i])
+      }
+      return window.btoa(binary)
+    },
+    getShopImage (shopId) {
+      const shop = this.shops.find(shop => shop.id === shopId)
+      return shop ? shop.imageUrl : ''
     }
   }
 }
-
 </script>

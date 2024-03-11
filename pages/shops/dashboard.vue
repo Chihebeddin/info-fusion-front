@@ -5,7 +5,7 @@ useHead({
 })
 
 definePageMeta({
-  layout: false,
+  layout: 'side',
   middleware: ['auth']
 })
 
@@ -14,7 +14,6 @@ definePageMeta({
 <template>
   <div class="p-4 sm:ml-64">
     <!-- Sidebar Content Here -->
-    <DefaultSidebar />
     <!-- Main Content Here -->
     <div class="w-full md:w-3/4 ">
       <h1 class="p-5 text-2xl font-bold text-gray-dark">

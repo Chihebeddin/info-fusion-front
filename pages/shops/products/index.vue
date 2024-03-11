@@ -15,26 +15,28 @@ onBeforeMount(() => {
   localStorage.removeItem('success')
 })
 
-onMounted(async () => {
+onMounted(() => {
+  getProducts()
+})
+
+const getProducts = async () => {
   const response = await fetch(`http://localhost:8080/products/filtered?shop=${auth.user.id}`, {
     watch: [products]
   })
   products.value = await response.json()
-})
+}
 
 definePageMeta({
-  layout: false,
+  layout: 'side',
   middleware: ['auth']
 })
 
 </script>
 
 <template>
-  <div class="p-4 sm:ml-64">
-    <!-- Sidebar Content Here -->
-    <DefaultSidebar />
+  <div class="p-4 h-screen ml-64 bg-gray-light">
     <!-- Main Content Here -->
-    <div class="w-full md:w-3/4">
+    <div class="w-full">
       <div v-if="message" id="toast-success" class="flex items-center w-full max-w-fit p-4 mb-4 text-gray bg-white rounded-lg shadow" role="alert">
         <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green bg-green-light rounded-lg dark:bg-green-light dark:text-green">
           <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -63,7 +65,7 @@ definePageMeta({
         </h1>
       </div>
 
-      <div class="relative overflow-x-auto sm:rounded-lg">
+      <div class="p-5">
         <DataTable :items="products" />
       </div>
     </div>

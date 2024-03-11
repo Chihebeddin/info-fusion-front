@@ -26,7 +26,7 @@ export default {
 }
 
 definePageMeta({
-  layout: false,
+  layout: 'side',
   middleware: ['auth']
 })
 
@@ -37,7 +37,7 @@ definePageMeta({
     <!-- Sidebar Content Here -->
     <DefaultSidebar />
     <!-- Main Content Here -->
-    <div class="w-full md:w-3/4">
+    <div class="w-full w-3/5">
       <div class="flex justify-between">
         <h1 class="p-5 text-2xl font-bold text-gray-dark">
           Détails de la commande

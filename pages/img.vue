@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map" style="height: 400px;" />
+    <div id="map" style="height: 400px;" /><br><br><br><br><br><br>
     <button @click="showDirection">
       Afficher la direction
     </button>

@@ -33,11 +33,9 @@ export async function addShop (
   formData.append('email', email)
   formData.append('longitude', longitude)
   formData.append('latitude', latitude)
-  formData.append('selectedTypes', ShopType)
+  formData.append('ShopType', ShopType)
   formData.append('password', password)
   formData.append('confirmPassword', confirmPassword)
-
-  console.log(ShopType)
 
   try {
     const response = await axios.post('http://localhost:8080/api/auth/SignUpShop', formData, {

@@ -45,6 +45,10 @@ export default {
   }
 }
 
+definePageMeta({
+  layout: false
+})
+
 </script>
 
 <template>

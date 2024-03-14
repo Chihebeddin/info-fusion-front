@@ -1,5 +1,6 @@
 <script>
 
+import QRCode from 'qrcode'
 import axios from 'axios'
 import { useAuthStore } from '../../store/auth.module.ts'
 
@@ -11,7 +12,8 @@ export default {
   },
   data () {
     return {
-      fidelityCard: ref([])
+      fidelityCard: ref([]),
+      qrCodeUrl: ref('')
     }
   },
   mounted () {
@@ -22,30 +24,47 @@ export default {
     async userData () {
       const store = useAuthStore()
       store.init()
-      await store.fetchUserInfo()
+      const response = await store.fetchUserInfo()
+      const userId = response.data.id.toString()
+
+      QRCode.toDataURL(userId).then((url) => {
+        this.qrCodeUrl = url
+      })
     },
     async getPoints () {
       const store = await useAuthStore().fetchUserInfo()
       await axios.get(`http://localhost:8080/fidelitycards/client/${store.data.id}`).then((res) => {
         this.fidelityCard = res.data
-        console.log(this.fidelityCard)
       })
-    }
+    },
+    formatDate (date) {
+      const day = String(date.getDate()).padStart(2, '0')
+      const month = String(date.getMonth() + 1).padStart(2, '0') // Months are zero-based
+      const year = date.getFullYear()
 
+      return `${day}/${month}/${year}`
+    }
   }
 }
+
+definePageMeta({
+  layout: false
+})
 
 </script>
 
 <template>
-  <div class="p-4 mt-9 sm:ml-64">
-    <div class="w-full md:w-4/5 px-4 py-8 md:py-12">
-      <ClientTabs />
-      <div
-        class="mt-8 p-5 mb-4 border border-gray-light rounded-md bg-gray-light shadow dark:bg-gray-light dark:border-gray-light"
-      >
-        <div>
-          <p>Nombre de points: {{ fidelityCard.nbPoints }}</p>
+  <div class="bg-gray-light h-screen">
+    <ClientTabs />
+
+    <div class="w-full mx-auto min-w-74 max-w-5xl">
+      <div class="pt-18 px-12 flex flex-row">
+        <div class="flex shrink grow basis-auto">
+          <div class="w-full flex flex-col">
+            <PointsCard :nb-points="fidelityCard.nbPoints" :date-points="fidelityCard.datePoints" />
+
+            <FidelityCard :balance="fidelityCard.solde" :qr-code="qrCodeUrl" />
+          </div>
         </div>
       </div>
     </div>

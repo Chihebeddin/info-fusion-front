@@ -25,7 +25,6 @@ onMounted(() => {
           </div>
           <div v-if="auth.token && auth.user.role === 'ROLE_CLIENT'" class="hidden md:block">
             <div class="ml-4 flex items-center ml-6">
-              <SearchForm @search="handleSearch" />
               <NuxtLink
                 to="/customers/shops/all"
                 class="text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group font-bold text-xl py-2 px-4 rounded"

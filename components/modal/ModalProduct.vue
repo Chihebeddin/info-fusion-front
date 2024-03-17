@@ -22,7 +22,7 @@ export default {
         quantity: '',
         safetyStock: ''
       },
-      selected: '',
+      selectedFile: '',
       toAdd: ''
     }
   },
@@ -35,8 +35,18 @@ export default {
     this.getCategories()
   },
   methods: {
+    handleFileUpload (event) {
+      this.selectedFile = event.target.files[0]
+      const formData = new FormData()
+      formData.append('image', this.selectedFile)
+      console.log(formData)
+    },
     async createProduct () {
-      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}&ctg=${this.selected}`, this.product).then((res) => {
+      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}&ctg=${this.selected}&image=${this.selectedFile}`, this.product, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
         if (res.status === 200) {
           localStorage.setItem('success', 'Nouveau produit enregistré avec succès !')
           navigateTo('/shops/products')
@@ -234,7 +244,12 @@ export default {
                     <p class="mb-2 text-sm text-gray dark:text-gray-400"><span class="font-semibold">Cliquez pour télécharger</span> ou glissez une image</p>
                     <p class="text-xs text-gray dark:text-gray-400">PNG or JPG</p>
                   </div>
-                  <input id="dropzone-file" type="file" class="hidden">
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    class="hidden"
+                    @change="handleFileUpload"
+                  >
                 </label>
               </div>
             </div>

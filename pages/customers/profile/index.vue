@@ -42,6 +42,11 @@ const userData = async () => {
   onRefresh()
 }
 
+definePageMeta({
+  layout: false,
+  middleware: ['auth']
+})
+
 </script>
 
 <template>

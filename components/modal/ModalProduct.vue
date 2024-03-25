@@ -35,17 +35,8 @@ export default {
     this.getCategories()
   },
   methods: {
-    handleFileUpload (event) {
-      this.selectedFile = event.target.files[0]
-      const formData = new FormData()
-      formData.append('image', this.selectedFile)
-      console.log(formData)
-    },
     async createProduct () {
-      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}&ctg=${this.selected}&image=${this.selectedFile}`, this.product, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}&ctg=${this.selected}`, this.product, {
       }).then((res) => {
         if (res.status === 200) {
           localStorage.setItem('success', 'Nouveau produit enregistré avec succès !')
@@ -248,7 +239,6 @@ export default {
                     id="dropzone-file"
                     type="file"
                     class="hidden"
-                    @change="handleFileUpload"
                   >
                 </label>
               </div>

@@ -107,7 +107,7 @@ export default {
   <div class="flex flex-col bg-gray-light">
     <div>
       <main class="block" tabindex="-1">
-        <div id="homelayout" class="box-border mx-auto mt-16 pt-8 px-16">
+        <div id="homelayout" class="box-border mx-auto pt-8 px-16">
           <div class="flex relative mb-7">
             <div id="categories" class="flex w-full absolute h-full justify-between" />
             <div class="scroll-smooth overflow-x-scroll">

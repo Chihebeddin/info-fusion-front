@@ -8,8 +8,8 @@ export default {
   components: { ClientForm, ShopForm },
 
   setup () {
-    useHead({
-      title: 'Inscription'
+    definePageMeta({
+      layout: 'alternative'
     })
   },
 
@@ -79,21 +79,17 @@ export default {
 </script>
 
 <template>
-  <div class="my-20 w-auto mx-auto">
-    <section>
+  <div class="bg-gray-light h-screen">
+    <div class="w-full mx-auto pt-16">
       <div class="flex flex-col items-center justify-center">
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="w-20 h-18 mr-2" src="../assets/images/shoploc-logo.png" alt="">
-          ShopLoc
-        </a>
         <div
-          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-white dark:border-gray-400"
+          class="w-full bg-gray-light rounded-lg shadow border max-w-2xl border-gray-300/70"
         >
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray md:text-2xl dark:text-gray-dark">
+            <h1 class="text-2xl font-semibold leading-tight tracking-tight">
               Créez un compte
             </h1>
-            <form class="space-y-4 md:space-y-6" @submit.prevent="onSubmit">
+            <form class="space-y-4" @submit.prevent="onSubmit">
               <div class="flex">
                 <div class="flex items-center mr-4">
                   <input
@@ -121,7 +117,7 @@ export default {
               </div>
 
               <ClientForm v-if="picked === 'Client'" ref="clientFormRef" />
-              <ShopForm v-else-if="picked === 'Shop'" ref="shopFormRef"/>
+              <ShopForm v-else-if="picked === 'Shop'" ref="shopFormRef" />
 
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -183,19 +179,14 @@ export default {
               </div>
               <button
                 type="submit"
-                class="w-full text-gray-dark bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal"
+                class="w-full text-white bg-teal hover:bg-teal-700 focus:ring-2 focus:outline-none focus:ring-teal-light font-semibold rounded-md px-2.5 py-2.5 text-center"
               >
                 S'inscrire
               </button>
-              <i class="text-sm font-light text-gray dark:text-gray">
-                Déjà un compte ? <NuxtLink to="/signin" class="font-bold text-teal hover:underline dark:text-teal">
-                  Se connecter
-                </NuxtLink>
-              </i>
             </form>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>

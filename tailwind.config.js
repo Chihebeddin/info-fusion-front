@@ -7,7 +7,8 @@ export default {
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
     './app.vue',
-    './error.vue'
+    './error.vue',
+    './node_modules/flowbite/**/*.{js,ts}'
   ],
   theme: {
     colors: {
@@ -72,5 +73,7 @@ export default {
       }
     }
   },
-  plugins: []
+  plugins: [
+    require('flowbite/plugin')
+  ]
 }

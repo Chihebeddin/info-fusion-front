@@ -73,8 +73,10 @@ export default {
       await store.fetchUserInfo()
     },
     async getShopsList () {
+      console.log('hhhhhhh')
       await axios.get('http://localhost:8080/shops').then((res) => {
         this.shops = _.shuffle(res.data).slice(0, 10)
+        console.log('hhhhhhh' + this.shops)
         // Call method to get images for each shop
         this.loadShopImages()
       })
@@ -100,6 +102,7 @@ export default {
       return window.btoa(binary)
     },
     getShopImage (shopId) {
+      console.log('ffffff')
       const shop = this.shops.find(shop => shop.id === shopId)
       return shop ? shop.imageUrl : ''
     }

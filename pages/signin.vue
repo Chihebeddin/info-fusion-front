@@ -9,10 +9,6 @@ const formData = {
 }
 // let errorMsg = ''
 
-definePageMeta({
-  layout: 'alternative'
-})
-
 const onSubmit = async () => {
   await store.login(formData.username, formData.password).then(async () => {
     try {
@@ -23,7 +19,7 @@ const onSubmit = async () => {
         if (store.user.role === 'ROLE_SHOP') {
           navigateTo('/shops/dashboard', { replace: true })
         } else if (store.user.role === 'ROLE_CLIENT') {
-          navigateTo('/customers/shops/', { replace: true })
+          navigateTo('/', { replace: true })
         }
       } else {
         // errorMsg = 'User not found'

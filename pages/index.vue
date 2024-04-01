@@ -3,7 +3,7 @@ import axios from 'axios'
 import _ from 'lodash'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
-import { useAuthStore } from '../../../store/auth.module.ts'
+import { useAuthStore } from '../store/auth.module.ts'
 
 export default {
   name: 'Shops',
@@ -35,12 +35,12 @@ export default {
       store: useAuthStore(),
       shops: {},
       shopTypes: [
-        { name: 'Boucheries', src: 'https://cdn-icons-png.flaticon.com/512/5223/5223562.png' },
-        { name: 'Fleuristes', src: 'https://cdn-icons-png.flaticon.com/512/1940/1940885.png' },
-        { name: 'Boulangeries', src: 'https://cdn-icons-png.flaticon.com/128/4673/4673843.png' },
-        { name: 'Epiceries', src: 'https://cdn-icons-png.flaticon.com/512/1546/1546564.png' },
-        { name: 'Grandes Surfaces', src: 'https://cdn-icons-png.flaticon.com/512/3514/3514407.png' },
-        { name: 'Poissonneries', src: 'https://cdn-icons-png.flaticon.com/512/7780/7780149.png' }
+        { name: 'Boucheries', src: 'https://cdn-icons-png.flaticon.com/512/5223/5223562.png', link: 'shops-boucherie' },
+        { name: 'Fleuristes', src: 'https://cdn-icons-png.flaticon.com/512/1940/1940885.png', link: 'shops-fleuriste' },
+        { name: 'Boulangeries', src: 'https://cdn-icons-png.flaticon.com/128/4673/4673843.png', link: 'shops-boulanger' },
+        { name: 'Epiceries', src: 'https://cdn-icons-png.flaticon.com/512/1546/1546564.png', link: 'shops-epicerie' },
+        { name: 'Grandes Surfaces', src: 'https://cdn-icons-png.flaticon.com/512/3514/3514407.png', link: 'shops-grande-surface' },
+        { name: 'Poissonneries', src: 'https://cdn-icons-png.flaticon.com/512/7780/7780149.png', link: 'shops-poissonnerie' }
       ],
       advantages: [
         { id: 1, title: '1€ dépensé = 1 point gagné', location: 'dans tous les commerces partenaires', message: 'Je commande', src: 'https://evoclip.fr/c/19-category_default/logos-grande-distribution-gms.jpg' },
@@ -105,31 +105,29 @@ export default {
       <main class="block" tabindex="-1">
         <div id="homelayout" class="box-border mx-auto pt-8 px-16">
           <div class="flex relative mb-7">
-            <div id="categories" class="flex w-full absolute h-full justify-between" />
+            <!-- <div id="categories" class="flex w-full absolute h-full justify-between" /> -->
             <div class="scroll-smooth overflow-x-scroll">
               <div class="flex relative">
                 <div v-for="shoptype in shopTypes" :key="shoptype" class="flex">
-                  <div>
-                    <li class="block relative max-w-24">
-                      <a class="max-w-fit min-w-18 flex flex-col relative items-center">
-                        <div class="flex flex-col items-center">
-                          <div class="relative mb-1">
-                            <div id="space" class="w-full h-full absolute left-1/2 top-1/2 duration-300 ease-out" />
-                            <div class="block w-full duration-300 ease-out object-contain aspect-square">
-                              <div class="flex overflow-hidden w-full">
-                                <div class="flex w-max overflow-hidden">
-                                  <img class="w-12 h-12 max-w-full max-h-full object-cover" :alt="shoptype.name" :src="shoptype.src">
-                                </div>
+                  <li class="block relative max-w-24">
+                    <NuxtLink :to="shoptype.link" class="max-w-fit min-w-18 flex flex-col relative items-center">
+                      <div class="flex flex-col items-center">
+                        <div class="relative mb-1">
+                          <div id="space" class="w-full h-full absolute left-1/2 top-1/2 duration-300 ease-out" />
+                          <div class="block w-full duration-300 ease-out object-contain aspect-square">
+                            <div class="flex overflow-hidden w-full">
+                              <div class="flex w-max overflow-hidden">
+                                <img class="w-12 h-12 max-w-full max-h-full object-cover" :alt="shoptype.name" :src="shoptype.src">
                               </div>
                             </div>
                           </div>
-                          <div class="overflow-hidden break-all line-clamp-1">
-                            <span class="whitespace-pre-wrap font-semibold text-sm p-0">{{ shoptype.name }}</span>
-                          </div>
                         </div>
-                      </a>
-                    </li>
-                  </div>
+                        <div class="overflow-hidden break-all line-clamp-1">
+                          <span class="whitespace-pre-wrap font-semibold text-sm p-0">{{ shoptype.name }}</span>
+                        </div>
+                      </div>
+                    </NuxtLink>
+                  </li>
                   <div class="w-4 h-px p-0 m-0 shrink-0" />
                 </div>
               </div>
@@ -236,10 +234,8 @@ export default {
                             aria-labelledby="basic-example-heading"
                             :options="options"
                             class="flex w-full shrink-0 grow-0 basis-full mr-6"
-                            @splide:mounted="onSplideMounted"
-                            @splide:move="onSplideMove"
                           >
-                            <SplideSlide v-for="shop in shops" id="popular" :key="shop.id" class="block relative mr-4">
+                            <SplideSlide v-for="shop in shops" id="popular" :key="shop.id" class="block relative mr-4" data-splide-interval="5000">
                               <div class="overflow-hidden relative">
                                 <NuxtLink :to="`/customers/shops/${ shop.id }`">
                                   <div class="relative flex overflow-hidden pointer-events-none">

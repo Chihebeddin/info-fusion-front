@@ -7,12 +7,6 @@ import { useLocationStore } from '@/store/location'
 export default {
   components: { ClientForm, ShopForm },
 
-  setup () {
-    definePageMeta({
-      layout: 'alternative'
-    })
-  },
-
   data () {
     return {
       picked: 'Client',

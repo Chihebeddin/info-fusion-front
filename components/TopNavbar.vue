@@ -3,11 +3,6 @@ import { useAuthStore } from '~/store/auth.module'
 
 const auth = useAuthStore()
 
-/* const onLogout = async () => {
-  auth.logout()
-  await navigateTo('/signin', { replace: true })
-} */
-
 onMounted(() => {
   auth.init()
 })
@@ -42,7 +37,7 @@ onMounted(() => {
 
               <div class="w-2.5 grow shrink-0" />
 
-              <div class="flex justify-end grow-0 items-center">
+              <div v-if="auth.token && auth.user.role === 'ROLE_CLIENT'" class="flex justify-end grow-0 items-center">
                 <button id="bag" class="w-12 h-12 bg-transparent flex flex-row items-center inline-flex justify-center border-0 border-none outline-none shadow-none appearance-none m-0 p-0 hover:bg-gray-400">
                   <div class="top-0.5 relative inline-block" style="line-height: initial;">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -62,6 +57,35 @@ onMounted(() => {
                     class="p-3 h-9 rounded-full font-semibold box-border whitespace-nowrap items-center inline-flex hover:bg-gray-400"
                   >
                     Espace fidélité
+                  </NuxtLink>
+                </div>
+              </div>
+
+              <div v-else class="flex justify-end grow-0 items-center">
+                <div class="flex ml-6">
+                  <NuxtLink
+                    to="/signup-shop"
+                    class="p-3 h-9 rounded-full font-semibold box-border whitespace-nowrap items-center inline-flex hover:bg-gray-400"
+                  >
+                    Devenir partenaire
+                  </NuxtLink>
+
+                  <div class="w-4" />
+
+                  <NuxtLink
+                    to="/signin"
+                    class="p-3 h-9 rounded-full font-semibold box-border whitespace-nowrap items-center inline-flex hover:bg-gray-400"
+                  >
+                    Connexion
+                  </NuxtLink>
+
+                  <div class="w-4" />
+
+                  <NuxtLink
+                    to="/signup-customer"
+                    class="p-3 h-9 rounded-full font-semibold box-border whitespace-nowrap items-center inline-flex hover:bg-gray-400"
+                  >
+                    Inscription
                   </NuxtLink>
                 </div>
               </div>

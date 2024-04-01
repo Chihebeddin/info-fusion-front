@@ -7,6 +7,7 @@ const formData = {
   username: '',
   password: ''
 }
+// let errorMsg = ''
 
 const onSubmit = async () => {
   await store.login(formData.username, formData.password).then(async () => {
@@ -18,77 +19,69 @@ const onSubmit = async () => {
         if (store.user.role === 'ROLE_SHOP') {
           navigateTo('/shops/dashboard', { replace: true })
         } else if (store.user.role === 'ROLE_CLIENT') {
-          navigateTo('/customers/shops/', { replace: true })
+          navigateTo('/', { replace: true })
         }
       } else {
+        // errorMsg = 'User not found'
         console.log('User not found')
       }
     } catch (error) {
+      // errorMsg = 'Une erreur'
       console.error('Une erreur s\'est produite lors de la récupération des informations utilisateur:', error)
     }
   })
 }
 
-useHead({
-  title: 'Connexion'
-})
-
 </script>
 
 <template>
-  <div class="my-20 w-auto mx-auto">
-    <section class="bg-gray-50 dark:bg-gray-900">
+  <div class="bg-gray-light h-screen">
+    <div class="w-full mx-auto pt-16">
       <div class="flex flex-col items-center justify-center ">
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="w-20 h-18 mr-2" src="../assets/images/shoploc-logo.png" alt="">
-          ShopLoc
-        </a>
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-white dark:border-gray-400">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray md:text-2xl dark:text-gray-dark">
+        <div class="w-full bg-gray-light rounded-lg shadow border max-w-lg border-gray-300/70">
+          <div class="p-8 space-y-6">
+            <h1 class="text-2xl font-semibold leading-tight tracking-tight">
               Connexion
             </h1>
-            <form class="space-y-4 md:space-y-6" @submit.prevent="onSubmit()">
+            <form class="space-y-4" @submit.prevent="onSubmit()">
               <div>
-                <label for="username" class="block mb-2 text-sm font-bold text-gray-dark dark:text-gray">Login</label>
+                <label for="username" class="block mb-2 text-sm font-semibold">Login</label>
                 <input
                   id="username"
                   v-model="formData.username"
                   type="username"
                   name="username"
 
-                  class="bg-gray-50 border border border-gray-400 text-gray-dark sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
+                  class="bg-gray-light border border border-gray-400 appearance-none rounded-md focus:outline-none focus:outline-offset-0 focus:outline-teal-700/50 block w-full p-2.5"
+                  placeholder="yourname@company.com"
                   required
                 >
               </div>
               <div>
-                <label for="password" class="block mb-2 text-sm font-bold text-gray-dark dark:text-gray">Mot de passe</label>
+                <label for="password" class="block mb-2 text-sm font-semibold ">Mot de passe</label>
                 <input
                   id="password"
                   v-model="formData.password"
                   type="password"
                   name="password"
                   placeholder="••••••••"
-                  class="bg-gray-50 border border border-gray-400 text-gray-dark sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-light border border border-gray-400 appearance-none rounded-md focus:outline-none focus:outline-offset-0 focus:outline-teal-700/50 block w-full p-2.5"
                   required
                 >
               </div>
               <div class="flex items-center justify-between">
-                <a href="#" class="text-sm font-medium text-teal hover:underline dark:text-teal">Mot de passe oublié ?</a>
+                <a href="#" class="text-sm font-medium text-teal hover:text-teal-700 hover:underline">Mot de passe oublié ?</a>
               </div>
-              <button type="submit" class="w-full text-gray-dark bg-teal hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700 dark:focus:ring-teal">
+              <button
+                type="submit"
+                class="w-full text-white bg-teal hover:bg-teal-700 focus:ring-2 focus:outline-none focus:ring-teal-light font-semibold rounded-md px-2.5 py-2.5 text-center"
+              >
                 Se connecter
               </button>
-              <i class="text-sm font-light text-gray dark:text-gray">
-                Pas encore de compte ? <NuxtLink to="/signup" class="font-bold text-teal hover:underline dark:text-teal-500">
-                  S'inscrire
-                </NuxtLink>
-              </i>
             </form>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>

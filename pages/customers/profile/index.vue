@@ -42,25 +42,22 @@ const userData = async () => {
   onRefresh()
 }
 
+definePageMeta({
+  layout: false,
+  middleware: ['auth']
+})
+
 </script>
 
 <template>
-  <div class="p-4 mt-9 sm:ml-64">
-    <!-- Main Content Here -->
-    <div class="w-full md:w-4/5 px-4 py-8 md:py-12">
-      <ClientTabs />
-      <div class="">
-        <div class="grid grid-cols-2 gap-4">
-          <!-- <div class="h-90 bg-gray-400 rounded-md"> -->
-          <div class="">
-            <img v-if="state.qrCodeUrl" :src="state.qrCodeUrl" width="260" height="260">
-            <!-- </div> -->
-            <!-- <div class="h-28 bg-gray-400 rounded-md">
-              02
-            </div>
-            <div class="h-28 bg-gray-400 rounded-md">
-              03
-            </div> -->
+  <div class="bg-gray-light h-screen">
+    <ClientTabs />
+
+    <div class="w-full mx-auto min-w-74 max-w-5xl">
+      <div class="pt-18 px-12 flex flex-row">
+        <div class="flex shrink grow basis-auto">
+          <div class="w-full flex flex-col">
+            Bienvenue !
           </div>
         </div>
       </div>

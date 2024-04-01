@@ -1,7 +1,11 @@
 <script setup>
-import { useAuthStore } from '~/store/auth.module'
+import { useAuthStore } from '../store/auth.module'
 
 const auth = useAuthStore()
+
+onMounted(() => {
+  auth.fetchUserInfo()
+})
 
 const onLogout = async () => {
   auth.logout()
@@ -11,11 +15,11 @@ const onLogout = async () => {
 </script>
 
 <template>
-  <div>
+  <header>
     <aside id="default-sidebar" class="bg-teal-900 bg-opacity-90 fixed top-0 left-0 z-40 w-64 h-screen pt-5 transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
       <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
         <div class="mb-8 ml-2 self-center text-4xl font-bold sm:text-4xl dark:text-white">
-          {{ auth.user.name }}
+          {{ auth.user && auth.user.name }}
         </div>
         <div class="space-y-2.5 font-medium">
           <NuxtLink to="/shops/dashboard" class="flex items-center p-2 text-xl rounded-lg dark:text-white hover:bg-gray dark:hover:bg-gray-light hover:text-gray-dark group">
@@ -74,7 +78,7 @@ const onLogout = async () => {
       </div>
     </aside>
     <slot />
-  </div>
+  </header>
 </template>
 
 <style lang="css" scoped>

@@ -42,28 +42,6 @@ export default {
 
 <template>
   <div class="bg-gray-light">
-    <section class="pt-14 ml-auto">
-      <div class="flex items-center justify-center py-4 md:py-8 flex-wrap">
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="bg-gray-light w-20 h-18 mr-2" src="../../../assets/images/bakery.png" alt="Bakery">
-        </a>
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="bg-gray-light w-20 h-18 mr-2" src="../../../assets/images/butcher.png" alt="Butcher">
-        </a>
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="bg-gray-light w-20 h-18 mr-2" src="../../../assets/images/fish.png" alt="Fish">
-        </a>
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="bg-gray-light w-20 h-18 mr-2" src="../../../assets/images/florist.png" alt="Florist">
-        </a>
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="bg-gray-light w-20 h-18 mr-2" src="../../../assets/images/groceries.png" alt="Groceries">
-        </a>
-        <a href="" class="flex items-center mb-6 text-2xl font-semibold text-gray dark:text-gray-dark">
-          <img class="bg-gray-light w-20 h-18 mr-2" src="../../../assets/images/supermarket.png" alt="Supermarket">
-        </a>
-      </div>
-    </section>
     <section>
       <div class="mt-8 w-4/5 mx-auto max-w-fit grid grid-cols-5 gap-6">
         <div v-for="shop in shops" :key="shop.id">

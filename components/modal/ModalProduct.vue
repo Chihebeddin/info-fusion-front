@@ -22,7 +22,7 @@ export default {
         quantity: '',
         safetyStock: ''
       },
-      selectedFile: '',
+      selected: '',
       toAdd: ''
     }
   },
@@ -33,6 +33,7 @@ export default {
   },
   mounted () {
     this.getCategories()
+    console.log('user : ', this.auth.user)
   },
   methods: {
     async createProduct () {

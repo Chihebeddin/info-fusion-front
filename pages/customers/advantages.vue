@@ -4,6 +4,9 @@ import { useAuthStore } from '../../store/auth.module.ts'
 
 export default {
   setup () {
+    definePageMeta({
+      middleware: ['auth']
+    })
     useHead({
       title: 'Avantages'
     })

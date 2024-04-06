@@ -1,8 +1,5 @@
 <template>
-  <div id="map" style="height: 400px;" />
-  <button @click="showDirection">
-    Afficher la direction
-  </button>
+  <div id="map" tabindex="0" class="bg-white absolute h-full w-full p-0 m-0 top-0 left-0 visible" />
 </template>
 
 <script>
@@ -28,6 +25,7 @@ export default {
     this.loadGoogleMaps(() => {
       this.initMap()
     })
+    this.showDirection()
   },
   methods: {
     loadGoogleMaps (callback) {
@@ -86,7 +84,7 @@ export default {
               if (status === 'OK') {
                 directionsDisplay.setDirections(result)
                 const duration = result.routes[0].legs[0].duration.text
-                window.alert('Durée estimée pour atteindre la destination: ' + duration)
+                window.alert('Durée estimée pour atteindre la destination : ' + duration + ' en voiture')
               } else {
                 window.alert('Impossible de trouver un itinéraire.')
               }

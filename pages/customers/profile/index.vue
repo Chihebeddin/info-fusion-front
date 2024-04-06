@@ -1,7 +1,7 @@
 <script setup>
 import QRCode from 'qrcode'
 import { ref } from 'vue'
-import { useAuthStore } from '../store/auth.module.ts'
+import { useAuthStore } from '../../../store/auth.module.ts'
 
 const store = useAuthStore()
 const userDataList = ref([])

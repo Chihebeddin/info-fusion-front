@@ -14,6 +14,8 @@ export default {
       shopId: '',
       shop: '',
       products: ref([]),
+      filteredProducts: ref([]),
+      categories: ref([]),
       itemsSelected: ref([]),
       store: useAuthStore(),
       qte: '',
@@ -22,7 +24,9 @@ export default {
       walkingDuration: '',
       walkingDistance: '',
       drivingDuration: '',
-      drivingDistance: ''
+      drivingDistance: '',
+      theHour: '',
+      showModal: ref(false)
     }
   },
   mounted () {
@@ -41,20 +45,27 @@ export default {
         document.head.appendChild(script)
       }
     },
-    async userData () {
+    userData () {
       const store = useAuthStore()
-      await store.fetchUserInfo()
+      store.fetchUserInfo()
     },
-    async getShop (shopId) {
-      await axios.get(`http://localhost:8080/shops/${shopId}`).then((res) => {
+    getShop (shopId) {
+      axios.get(`http://localhost:8080/shops/${shopId}`).then((res) => {
         this.shop = res.data
+        this.theHour = this.shop.closingTime
         this.loadShopImage()
       })
     },
-    async getProducts (shopId) {
-      await axios.get(`http://localhost:8080/products/filtered?shop=${shopId}`).then((res) => {
+    getProducts (shopId) {
+      axios.get(`http://localhost:8080/products/filtered?shop=${shopId}`).then((res) => {
         this.products = res.data
+        this.categories = computed(() => {
+          return [...new Set(this.products.map(item => item.category.name))]
+        })
       })
+    },
+    productsByCategory (ctgName) {
+      return this.products.filter(item => item.category.name === ctgName)
     },
     loadShopImage () {
       axios.get(this.baseUrl + `${this.shopId}/image`, { responseType: 'arraybuffer' })
@@ -204,15 +215,27 @@ export default {
                   </span>
                   <span class="px-1 text-lg font-medium">·</span>
                   <span class="inline-flex items-center justify-center pr-1">
-                    <span v-if="new Date().getHours() > shop.closingTime.substring(0, 2)">Fermé jusqu'à {{ shop.openingTime }}</span>
+                    <span v-if="new Date().getHours() > theHour.substring(0, 2)">Fermé jusqu'à {{ shop.openingTime }}</span>
                     <span v-else>Ouvert jusqu'à {{ shop.closingTime }}</span>
                   </span>
                 </div>
 
-                <div class="pt-4">
-                  <span class="text-lg">
-                    Informations
-                  </span>
+                <Teleport to="body">
+                  <!-- use the modal component, pass in the prop -->
+                  <MapModal :key="shop.id" :shop="shop" :show="showModal" @close="showModal = false" />
+                </Teleport>
+
+                <div class="pt-4 flex">
+                  <button
+                    class="inline-flex items-center justify-center pr-1"
+                    @click="showModal = true"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-gray mr-1" width="20" height="20" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8" />
+                      <circle cx="12" cy="8" r="1" fill="#currentColor" />
+                      <path fill="currentColor" d="M12 10a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0v-5a1 1 0 0 0-1-1" />
+                    </svg> Informations
+                  </button>
                 </div>
               </div>
             </div>
@@ -220,68 +243,99 @@ export default {
         </div>
       </div>
     </div>
-    <section class="px-16 mb-28 grid grid-cols-3 gap-6">
-      <div class="col-span-2">
-        <div class="my-8">
-          <h1 class="text-xl font-semibold tracking-tight leading-none text-gray-dark lg:text-2xl">
-            Catégories
-          </h1>
-        </div>
-        <div class="max-w-5xl grid grid-cols-6 gap-3">
-          <div v-for="product in products" :key="product.id">
-            <div class="h-90 bg-white border border-gray-light rounded-sm shadow dark:bg-white dark:border-gray-400">
-              <div href="#">
-                <img class="h-48" src="../../../assets/images/baguette.jpg" alt="product image">
+
+    <div class="flex justify-center pb-6 scroll-mt-40">
+      <div class="px-16 mx-auto grow-1 box-content" style="max-width: 1920px; width: calc(100% - 2 * 64px);">
+        <div class="box-content" style="max-width: 1920px;">
+          <div id="products" class="grid mt-8">
+            <main class="block" style="grid-area: menu;">
+              <div v-for="category in categories" :key="category">
+                <div class="mb-4">
+                  <div>
+                    <div class="flex justify-between">
+                      <div class="flex-1 mxr-auto">
+                        <div class="flex items-baseline">
+                          <h2 class="text-xl font-bold">
+                            {{ category }}
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <ul id="productGrid" class="grid">
+                  <li v-for="product in productsByCategory(category)" :key="product.id">
+                    <div id="prdDescription" class="rounded box-border">
+                      <div class="flex flex-col p-0 box-border h-full">
+                        <div class="box-border w-full h-full flex flex-col px-2 pt-2 whitespace-pre-line mr-auto">
+                          <div class="box-border">
+                            <p class="box-border text-sm block font-semibold">
+                              <span class="line-clamp-4 box-border"> {{ product.name }}</span>
+                            </p>
+                          </div>
+
+                          <div class="mt-auto box-border">
+                            <div class="flex flex-col box-border flex-wrap pt-px" style="gap: 4px 0;">
+                              <span class="box-border text-sm text-gray font-medium">{{ product.price }} €</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="-order-1 border-0 m-0 w-full rounded-none h-0 box-border overflow-hidden shrink-0 relative" style="border-bottom: 1px solid #f5f5f5; padding-top: 100%;">
+                          <div id="productImg" class="bg-cover box-border">
+                            <div id="cover" class="bg-cover opcaity-0 box-border " />
+                          </div>
+                        </div>
+
+                        <div class="p-2 box-border mt-auto relative" style="z-index: 2;">
+                          <div class="ml-0 box-border">
+                            <span class="box-border flex h-full max-h-full w-full">
+                              <button
+                                type="button"
+                                data-input-counter-decrement="counter-input"
+                                class="flex-shrink-0 inline-flex items-center justify-center"
+                                @click="minus(product)"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-teal hover:text-teal-700">
+                                  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
+                                </svg>
+                              </button>
+                              <input
+                                type="text"
+                                min="0"
+                                :max="product.quantity"
+                                data-input-counter
+                                disabled
+                                class="flex-shrink-0 text-gray border-0 bg-transparent text-xl font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
+                              >
+                              <button
+                                type="button"
+                                data-input-counter-increment="counter-input"
+                                class="flex-shrink-0 inline-flex items-center justify-center"
+                                @click="plus(product)"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-teal hover:text-teal-700">
+                                  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                                </svg>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
               </div>
-              <div class="mx-3">
-                <div class="mt-2 mb-1 h-16">
-                  <h1 class="font-semibold leading-6 text-lg tracking-tight">
-                    {{ product.name }}
-                  </h1>
-                </div>
-                <div class="mb-1">
-                  <span class="text-lg font-medium text-gray">{{ product.price }} €</span>
-                </div>
-                <div class="mb-2 relative flex items-center">
-                  <button
-                    type="button"
-                    data-input-counter-decrement="counter-input"
-                    class="flex-shrink-0 inline-flex items-center justify-center"
-                    @click="minus(product)"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-teal hover:text-teal-700">
-                      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  <input
-                    type="text"
-                    min="0"
-                    :max="product.quantity"
-                    data-input-counter
-                    disabled
-                    class="flex-shrink-0 text-gray border-0 bg-transparent text-xl font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center"
-                  >
-                  <button
-                    type="button"
-                    data-input-counter-increment="counter-input"
-                    class="flex-shrink-0 inline-flex items-center justify-center"
-                    @click="plus(product)"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-teal hover:text-teal-700">
-                      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+            </main>
+
+            <aside class="sticky overflow-hidden self-start" style="top: calc(32px + 73px + 73px); z-index: 3;">
+              <ShoppingCart :items="itemsSelected" />
+            </aside>
           </div>
         </div>
       </div>
-      <div class="mt-8">
-        <ShoppingCart :items="itemsSelected" />
-        <!--<ShopLocation :longitude="shop.longitude" :latitude="shop.latitude" />-->
-      </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -308,6 +362,59 @@ export default {
   background-position: 50%;
   transition: opacity .5s ease-out;
   background-image: url('https://img.freepik.com/premium-photo/doodle-food-icons-seamless-background_3248-3676.jpg');
+}
+
+#productImg {
+  background-position: 50%;
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#products {
+  grid-template-columns: minmax(60%,70%) minmax(420px,1fr);
+  grid-gap: 32px 24px;
+  grid-template-areas: "menu basket";
+  grid-template-columns: 60% 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+#productGrid {
+  --grid-col-width: 125px;
+  grid-gap: 16px;
+  grid-template: auto/repeat(auto-fill,minmax(var(--grid-col-width),1fr));
+}
+
+#prdDescription {
+  box-shadow: 0 1px 4px #00000014;
+  background-color: #fff;
+  border: 1px solid #0000000a;
+  cursor: pointer;
+  height: 100%;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow .2s ease-in-out;
+  width: 100%;
+  word-break: break-word;
+}
+
+#prdDescription:hover {
+  box-shadow: 0 8px 10px #00000014;
+}
+
+#cover {
+  background-image: url('https://cdn4.vectorstock.com/i/1000x1000/95/18/food-grocery-icons-vector-21859518.jpg');
+  transition: opacity .5s ease-out;
+  background-position: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 }
 
 </style>

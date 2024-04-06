@@ -17,6 +17,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   getProducts()
+  console.log('user : ', auth.user)
 })
 
 const getProducts = async () => {

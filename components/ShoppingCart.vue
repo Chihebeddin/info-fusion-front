@@ -46,7 +46,7 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-fit bg-white border border-gray-light rounded-xs shadow">
+  <div class="min-h-fit rounded" style="box-shadow: 0 6px 20px #00000014; border: 1px solid #0000000a;">
     <div v-if="items.length === 0">
       <div class="px-5 font-medium text-center text-xl text-gray-500">
         <div class="pt-8 pb-6">

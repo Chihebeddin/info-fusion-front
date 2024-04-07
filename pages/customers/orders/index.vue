@@ -32,7 +32,7 @@ export default {
     },
     async getOrders () {
       const store = await useAuthStore().fetchUserInfo()
-      await axios.get(`http://localhost:8080/orders/filtered?client=${store.data.id}`).then((res) => {
+      await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders/filtered?client=${store.data.id}`).then((res) => {
         this.orders = res.data
       })
     },

@@ -17,7 +17,7 @@ const products = ref([])
 }) */
 
 onMounted(async () => {
-  const response = await fetch(`http://localhost:8080/products/filtered?shop=${auth.user.id}`)
+  const response = await fetch(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/filtered?shop=${auth.user.id}`)
   products.value = await response.json()
 })
 

@@ -59,7 +59,7 @@ const handleCheckboxFilter = (filter) => {
 
 const deleteProduct = async (productId) => {
   if (confirm('Confirmez la suppression ?')) {
-    await axios.delete(`http://localhost:8080/products/${productId}`).then((res) => {
+    await axios.delete(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/${productId}`).then((res) => {
       if (res.status === 200) {
         localStorage.setItem('success', 'Produit supprimé avec succès !')
       }
@@ -81,18 +81,28 @@ const change = (id) => {
   <div class="relative">
     <div class="flex items-center justify-between mb-4">
       <!-- Search bar -->
-      <SearchForm @search="handleSearch" />
+      <div class="flex grow shrink-0 basis-0 w-full" style="min-width: 600px;">
+        <div class="w-full mx-auto">
+          <div class="relative">
+            <SearchForm @search="handleSearch" />
+          </div>
+        </div>
+      </div>
+
+      <div class="w-1 grow shrink-0" />
 
       <div>
         <!-- Add button -->
         <button
           id="show-modal"
-          class="w-fit text-white font-semibold bg-teal hover:bg-teal-700 rounded-lg px-5 py-2.5 text-center dark:bg-teal dark:hover:bg-teal-700"
+          class="w-full text-white bg-teal hover:bg-teal-700 focus:ring-2 focus:outline-none focus:ring-teal-light font-semibold rounded-md px-2.5 py-2.5 text-center"
           @click="showModal = true; msg = 'add'"
         >
           Ajouter un produit
         </button>
       </div>
+
+      <div class="w-1 grow shrink-0" />
 
       <div class="flex items-center justify-end text-sm font-semibold">
         <!-- Radio buttons -->

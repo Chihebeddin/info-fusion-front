@@ -55,7 +55,7 @@ export default {
         { id: 2, title: 'Dépensez vos points en avantages fidélité', location: 'dans votre boutique préférée', message: 'J\'en profite !', src: 'https://img-0.journaldunet.com/4XTHu6C_96E5ZNimsfJc1TFW2aw=/1500x/smart/cf7c60b704d74099ab1f8bf1e84f9c21/ccmcms-jdn/10770453.jpg' },
         { id: 3, title: 'Achetez régulièrement', location: 'et débloquez des avantages qui vous correspondent !', message: 'Je commence maintenant !', src: 'https://technologieservices.fr/media/wysiwyg/programme-fidelite.png' }
       ],
-      baseUrl: 'http://localhost:8080/shops/'
+      baseUrl: 'https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/'
     }
   },
   mounted () {
@@ -69,7 +69,7 @@ export default {
       await store.fetchUserInfo()
     },
     getShopsList () {
-      axios.get('http://localhost:8080/shops').then((res) => {
+      axios.get('https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops').then((res) => {
         this.shops = _.shuffle(res.data).slice(0, 10)
         console.log('hhhhhhh' + this.shops)
         // Call method to get images for each shop

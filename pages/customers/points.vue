@@ -36,7 +36,7 @@ export default {
     },
     async getPoints () {
       const store = await useAuthStore().fetchUserInfo()
-      await axios.get(`http://localhost:8080/fidelitycards/client/${store.data.id}`).then((res) => {
+      await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/fidelitycards/client/${store.data.id}`).then((res) => {
         this.fidelityCard = res.data
       })
     },

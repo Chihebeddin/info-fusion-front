@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     shopTypes () {
-      return ['Boulanger', 'Boucher', 'Fleuriste', 'Epicerie'] // Liste des types de magasins
+      return ['Boulangerie', 'Boucherie', 'Fleuriste', 'Epicerie', 'Poissonnerie', 'Fromagerie', 'Grande_Surface'] // Liste des types de magasins
     }
   },
 

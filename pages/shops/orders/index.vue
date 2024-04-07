@@ -21,18 +21,18 @@ export default {
   },
   methods: {
     getOrders () {
-      axios.get(`http://localhost:8080/orders?shop=${this.auth.user.id}`).then((res) => {
+      axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders?shop=${this.auth.user.id}`).then((res) => {
         this.orders = res.data
       })
     },
     accept (id) {
-      axios.put(`http://localhost:8080/orders/${id}/accept`)
+      axios.put(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders/${id}/accept`)
     },
     decline (id) {
-      axios.put(`http://localhost:8080/orders/${id}?status=Rejetée`)
+      axios.put(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders/${id}?status=Rejetée`)
     },
     end (id) {
-      axios.put(`http://localhost:8080/orders/${id}/end`)
+      axios.put(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders/${id}/end`)
     },
     formatDate (date) {
       const day = String(date.getDate()).padStart(2, '0')
@@ -46,7 +46,7 @@ export default {
     },
     getContent (orderId, t) {
       this.total = t
-      axios.get(`http://localhost:8080/contains/${orderId}`).then((res) => {
+      axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/contains/${orderId}`).then((res) => {
         this.contents = res.data
       })
     }

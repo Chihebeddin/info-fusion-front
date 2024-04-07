@@ -37,10 +37,11 @@ export default {
       shopTypes: [
         { name: 'Boucheries', src: 'https://cdn-icons-png.flaticon.com/512/5223/5223562.png', link: 'shops-boucherie' },
         { name: 'Fleuristes', src: 'https://cdn-icons-png.flaticon.com/512/1940/1940885.png', link: 'shops-fleuriste' },
-        { name: 'Boulangeries', src: 'https://cdn-icons-png.flaticon.com/128/4673/4673843.png', link: 'shops-boulanger' },
+        { name: 'Boulangeries', src: 'https://cdn-icons-png.flaticon.com/512/3194/3194776.png', link: 'shops-boulanger' },
         { name: 'Epiceries', src: 'https://cdn-icons-png.flaticon.com/512/1546/1546564.png', link: 'shops-epicerie' },
-        { name: 'Grandes Surfaces', src: 'https://cdn-icons-png.flaticon.com/512/3514/3514407.png', link: 'shops-grande-surface' },
-        { name: 'Poissonneries', src: 'https://cdn-icons-png.flaticon.com/512/7780/7780149.png', link: 'shops-poissonnerie' }
+        { name: 'Grandes Surfaces', src: 'https://cdn-icons-png.flaticon.com/512/360/360663.png', link: 'shops-grande-surface' },
+        { name: 'Poissonneries', src: 'https://cdn-icons-png.flaticon.com/512/7780/7780149.png', link: 'shops-poissonnerie' },
+        { name: 'Fromageries', src: 'https://cdn-icons-png.flaticon.com/512/1054/1054930.png', link: 'shops-formagerie' }
       ],
       advantages: [
         { id: 1, title: '1€ dépensé = 1 point gagné', location: 'dans tous les commerces partenaires', message: 'Je commande', src: 'https://evoclip.fr/c/19-category_default/logos-grande-distribution-gms.jpg' },
@@ -52,7 +53,7 @@ export default {
         { id: 2, title: 'Click & Collect', location: 'Réservez, payez et récupérez vos achats à tout moment', link: '', src: 'https://static.thenounproject.com/png/4606558-200.png' },
         { id: 3, title: 'Achetez régulièrement', location: 'et débloquez des avantages qui vous correspondent !', link: 'Je commence maintenant !', src: 'https://technologieservices.fr/media/wysiwyg/programme-fidelite.png' }
       ],
-      baseUrl: 'http://localhost:8080/shops/'
+      baseUrl: 'https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/'
     }
   },
   mounted () {
@@ -65,7 +66,7 @@ export default {
       await this.store.fetchUserInfo()
     },
     getShopsList () {
-      axios.get('http://localhost:8080/shops').then((res) => {
+      axios.get('https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/filtered').then((res) => {
         this.shops = _.shuffle(res.data).slice(0, 10)
         // Call method to get images for each shop
         this.loadShopImages()
@@ -77,9 +78,6 @@ export default {
           .then((response) => {
             const base64Image = this.arrayBufferToBase64(response.data)
             shop.imageUrl = `data:image/jpeg;base64,${base64Image}`
-          })
-          .catch((error) => {
-            console.error('Error fetching image:', error)
           })
       })
     },
@@ -240,7 +238,8 @@ export default {
                                 <NuxtLink :to="`/customers/shops/${ shop.id }`">
                                   <div class="relative flex overflow-hidden pointer-events-none">
                                     <div id="carouselbg" class="relative flex flex-col overflow-hidden w-full items-center p-4 min-w-0 justify-evenly h-48 rounded-xl">
-                                      <img class="overflow-hidden grow-0 shrink-0 basis-auto h-20 object-contain w-132 rounded-lg" :src="getShopImage(shop.id)" :alt="shop.name">
+                                      <img v-if="getShopImage(shop.id)" class="overflow-hidden grow-0 shrink-0 basis-auto h-20 object-contain w-132 rounded-lg" :src="getShopImage(shop.id)" :alt="shop.name">
+                                      <img v-else class="overflow-hidden grow-0 shrink-0 basis-auto h-20 object-cover w-132 rounded-lg" src="../assets/images/grande_surface.jpg" :alt="shop.name">
                                       <div class="w-4 h-px" />
                                       <div class="flex flex-col w-full items-center min-w-0">
                                         <div class="flex w-full">
@@ -271,7 +270,8 @@ export default {
                             <div id="all" class="relative flex overflow-hidden pointer-events-none">
                               <div id="allbg" class="relative overflow-hidden w-full h-36 rounded-xl">
                                 <div class="h-full">
-                                  <img class="block object-contain h-full w-full rounded-lg" :src="getShopImage(shop.id)" :alt="shop.name">
+                                  <img v-if="getShopImage(shop.id)" class="block object-contain h-full w-full rounded-lg" :src="getShopImage(shop.id)" :alt="shop.name">
+                                  <img v-else class="block object-cover h-full w-full rounded-lg" src="../assets/images/grande_surface.jpg" :alt="shop.name">
                                 </div>
                               </div>
                               <div class="flex flex-col items-start">

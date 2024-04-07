@@ -12,7 +12,7 @@ export default {
       shops: [],
       routeType: (useRoute().params).type,
       isLoading: false,
-      baseUrl: 'http://localhost:8080/shops/'
+      baseUrl: 'https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/'
     }
   },
   mounted () {
@@ -27,11 +27,11 @@ export default {
     getShopsList () {
       this.isLoading = true
       setTimeout(() => {
-        axios.get('http://localhost:8080/shops').then((res) => {
+        axios.get('https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/filtered/').then((res) => {
           res.data.forEach((shop) => {
-            if (shop.shopType.some(elt => elt.type.toLowerCase() === this.routeType)) {
+            if (shop.shopType.some(elt => elt.type.toLowerCase() === this.routeType ||
+              elt.type.toLowerCase() === 'grande_surface')) {
               this.shops.push(shop)
-              console.log(shop)
             }
           })
           // Call method to get images for each shop
@@ -46,9 +46,6 @@ export default {
           .then((response) => {
             const base64Image = this.arrayBufferToBase64(response.data)
             shop.imageUrl = `data:image/jpeg;base64,${base64Image}`
-          })
-          .catch((error) => {
-            console.error('Error fetching image:', error)
           })
       })
     },
@@ -118,7 +115,8 @@ export default {
                             <div id="all" class="relative flex overflow-hidden pointer-events-none">
                               <div id="allbg" class="relative overflow-hidden w-full h-36 rounded-xl">
                                 <div class="h-full">
-                                  <img class="block object-contain h-full w-full rounded-lg" :src="getShopImage(shop.id)" :alt="shop.name">
+                                  <img v-if="getShopImage(shop.id)" class="block object-contain h-full w-full rounded-lg" :src="getShopImage(shop.id)" :alt="shop.name">
+                                  <img v-else class="block object-cover h-full w-full rounded-lg" src="../assets/images/grande_surface.jpg" :alt="shop.name">
                                 </div>
                               </div>
                               <div class="flex flex-col items-start">

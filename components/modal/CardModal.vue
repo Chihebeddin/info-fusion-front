@@ -17,7 +17,7 @@ export default {
   methods: {
     refund () {
       setTimeout(() => {
-        axios.put(`http://localhost:8080/fidelitycards/refund?client=${this.auth.user.id}&solde=${this.amount}`).then((res) => {
+        axios.put(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/fidelitycards/refund?client=${this.auth.user.id}&solde=${this.amount}`).then((res) => {
           if (res.status === 200) {
           // to do
           }

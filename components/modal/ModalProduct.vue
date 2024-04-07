@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     async createProduct () {
-      await axios.post(`http://localhost:8080/products/create?shop=${this.auth.user.id}&ctg=${this.selected}`, this.product, {
+      await axios.post(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/create?shop=${this.auth.user.id}&ctg=${this.selected}`, this.product, {
       }).then((res) => {
         if (res.status === 200) {
           localStorage.setItem('success', 'Nouveau produit enregistré avec succès !')
@@ -47,7 +47,7 @@ export default {
     },
     async getProduct (productId) {
       // this.isLoading = true
-      await axios.get(`http://localhost:8080/products/${productId}`).then((res) => {
+      await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/${productId}`).then((res) => {
         // this.isLoading = false
         this.product = res.data
         this.selected = res.data.category.id
@@ -55,7 +55,7 @@ export default {
     },
     async updateProduct () {
       // this.isLoading = true
-      await axios.put(`http://localhost:8080/products/${this.product.id}`, this.product).then((res) => {
+      await axios.put(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/${this.product.id}`, this.product).then((res) => {
         if (res.status === 200) {
           // this.isLoading = false
           localStorage.setItem('success', 'Modification enregistrée avec succès !')
@@ -64,7 +64,7 @@ export default {
       })
     },
     async updateStock () {
-      await axios.put(`http://localhost:8080/products/stock/${this.product.id}?stock=${this.toAdd}`).then((res) => {
+      await axios.put(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/stock/${this.product.id}?stock=${this.toAdd}`).then((res) => {
         if (res.status === 200) {
           // this.isLoading = false
           localStorage.setItem('success', 'Modification enregistrée avec succès !')
@@ -73,7 +73,7 @@ export default {
       })
     },
     getCategories () {
-      axios.get('http://localhost:8080/categories').then((res) => {
+      axios.get('https://info-fusion-back-mr2ieedmfa-od.a.run.app/categories').then((res) => {
         this.categories = res.data
       })
     }

@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getFidelityCard () {
-      axios.get(`http://localhost:8080/fidelitycards/client/${this.store.user.id}`).then((res) => {
+      axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/fidelitycards/client/${this.store.user.id}`).then((res) => {
         if (res.status === 200) {
           this.card = res.data
         }
@@ -33,7 +33,7 @@ export default {
       return tab.reduce((acc, value) => acc + value, 0).toFixed(2)
     },
     async submitOrder () {
-      await axios.post(`http://localhost:8080/orders/create?client=${this.store.user.id}&payment=${this.picked}`, this.$props.items).then((res) => {
+      await axios.post(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders/create?client=${this.store.user.id}&payment=${this.picked}`, this.$props.items).then((res) => {
         if (res.status === 200) {
           localStorage.setItem('success', 'Votre commande a été enregistrée avec succès !')
           navigateTo('/customers/orders')

@@ -25,14 +25,14 @@ export default {
       await store.fetchUserInfo()
     },
     async getContent (orderId) {
-      await axios.get(`http://localhost:8080/contains/${orderId}`).then((res) => {
+      await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/contains/${orderId}`).then((res) => {
         this.contents = res.data
 
         const tab = this.contents.map(item => item.quantity * item.product.price)
         this.total = tab.reduce((acc, value) => acc + value, 0).toFixed(2)
 
         const elt = this.contents.at(0).product.id
-        axios.get(`http://localhost:8080/products/${elt}`).then((res) => {
+        axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/${elt}`).then((res) => {
           this.shop = res.data.shop
         })
       })

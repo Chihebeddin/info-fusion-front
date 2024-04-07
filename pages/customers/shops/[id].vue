@@ -19,7 +19,7 @@ export default {
       itemsSelected: ref([]),
       store: useAuthStore(),
       qte: '',
-      baseUrl: 'http://localhost:8080/shops/',
+      baseUrl: 'https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/',
       imageUrl: '',
       walkingDuration: '',
       walkingDistance: '',
@@ -50,14 +50,14 @@ export default {
       store.fetchUserInfo()
     },
     getShop (shopId) {
-      axios.get(`http://localhost:8080/shops/${shopId}`).then((res) => {
+      axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/${shopId}`).then((res) => {
         this.shop = res.data
         this.theHour = this.shop.closingTime
         this.loadShopImage()
       })
     },
     getProducts (shopId) {
-      axios.get(`http://localhost:8080/products/filtered?shop=${shopId}`).then((res) => {
+      axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/products/filtered?shop=${shopId}`).then((res) => {
         this.products = res.data
         this.categories = computed(() => {
           return [...new Set(this.products.map(item => item.category.name))]
@@ -70,13 +70,15 @@ export default {
     loadShopImage () {
       axios.get(this.baseUrl + `${this.shopId}/image`, { responseType: 'arraybuffer' })
         .then((response) => {
-          const base64Image = this.arrayBufferToBase64(response.data)
-          this.imageUrl = `data:image/jpeg;base64,${base64Image}`
-          const img = document.getElementById('headerimg')
-          img.style.backgroundImage = 'url(\'' + this.imageUrl + '\')'
-        })
-        .catch((error) => {
-          console.error('Error fetching image:', error)
+          if (response.status === 200) {
+            const base64Image = this.arrayBufferToBase64(response.data)
+            this.imageUrl = `data:image/jpeg;base64,${base64Image}`
+            const img = document.getElementById('headerimg')
+            img.style.backgroundImage = 'url(\'' + this.imageUrl + '\')'
+          } else {
+            const img = document.getElementById('default')
+            img.style.opacity = 1
+          }
         })
     },
     arrayBufferToBase64 (buffer) {
@@ -250,7 +252,7 @@ export default {
           <div id="products" class="grid mt-8">
             <main class="block" style="grid-area: menu;">
               <div v-for="category in categories" :key="category">
-                <div class="mb-4">
+                <div class="mb-4 mt-8">
                   <div>
                     <div class="flex justify-between">
                       <div class="flex-1 mxr-auto">

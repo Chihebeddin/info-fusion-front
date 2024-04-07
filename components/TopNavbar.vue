@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 import { useAuthStore } from '~/store/auth.module'
 
 const auth = useAuthStore()
@@ -6,6 +7,17 @@ const auth = useAuthStore()
 onMounted(() => {
   auth.init()
 })
+
+let nbOrders = ref(0)
+
+axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/orders/filtered?client=${auth.id}`).then((res) => {
+  res.data.forEach((order) => {
+    if (order.status !== 'Terminée') {
+      nbOrders++
+    }
+  })
+})
+
 </script>
 
 <template>
@@ -45,7 +57,7 @@ onMounted(() => {
                     </svg>
                     <div class="absolute -top-2.5 -right-2.5" style="line-height: initial;">
                       <div class="items-center inline-flex justify-center text-xs bg-green w-5 h-5 rounded-2xl text-white font-semibold">
-                        0
+                        {{ nbOrders }}
                       </div>
                     </div>
                   </div>

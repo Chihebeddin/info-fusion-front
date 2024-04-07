@@ -17,7 +17,7 @@ export default {
   methods: {
     async getContent (orderId) {
       this.isLoading = true
-      await axios.get(`http://localhost:8080/contains/${orderId}`).then((res) => {
+      await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/contains/${orderId}`).then((res) => {
         this.isLoading = false
         this.contents = res.data
       })

@@ -1,7 +1,7 @@
 import axios, { type AxiosResponse } from 'axios'
 
 export async function addClient (email: any, password: any, confirmPassword: any, firstName: any, lastName: any, phone: any, birthdate: any): Promise <AxiosResponse<void>> {
-  return await axios.post('http://localhost:8080/api/auth/SignUpClient', { email, password, confirmPassword, firstName, lastName, phone, birthdate }, {
+  return await axios.post('https://info-fusion-back-mr2ieedmfa-od.a.run.app/api/auth/SignUpClient', { email, password, confirmPassword, firstName, lastName, phone, birthdate }, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -38,7 +38,7 @@ export async function addShop (
   formData.append('confirmPassword', confirmPassword)
 
   try {
-    const response = await axios.post('http://localhost:8080/api/auth/SignUpShop', formData, {
+    const response = await axios.post('https://info-fusion-back-mr2ieedmfa-od.a.run.app/api/auth/SignUpShop', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

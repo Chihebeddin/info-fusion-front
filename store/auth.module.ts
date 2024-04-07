@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 
-const baseUrl = 'http://localhost:8080/api/auth'
+const baseUrl = 'https://info-fusion-back-mr2ieedmfa-od.a.run.app/api/auth'
 // const baseUrl = 'https://infofusion-kat2zxt5wq-od.a.run.app/api/auth'
 
 export const useAuthStore = defineStore({
@@ -54,11 +54,11 @@ export const useAuthStore = defineStore({
           withCredentials: true
         })
         if (response.data.role === 'ROLE_CLIENT') {
-          const client = await axios.get(`http://localhost:8080/clients/${response.data.id}`)
+          const client = await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/clients/${response.data.id}`)
           this.user = client.data
           localStorage.setItem('user', this.user)
         } else if (response.data.role === 'ROLE_SHOP') {
-          const shop = await axios.get(`http://localhost:8080/shops/${response.data.id}`)
+          const shop = await axios.get(`https://info-fusion-back-mr2ieedmfa-od.a.run.app/shops/${response.data.id}`)
           this.user = shop.data
           localStorage.setItem('user', this.user)
         }
